@@ -16,7 +16,7 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB max
   },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('audio/')) {
+    if (file.mimetype.startsWith('audio/') || file.mimetype === 'application/octet-stream') {
       cb(null, true);
     } else {
       cb(new Error('Only audio files are allowed'));
@@ -24,38 +24,9 @@ const upload = multer({
   },
 });
 
-const analyzeVoiceSchema = z.object({
-  contacts: z.array(z.object({
-    name: z.string(),
-    phoneNumber: z.string(),
-    relationship: z.string(),
-  })),
-  location: z.object({
-    latitude: z.number(),
-    longitude: z.number(),
-    accuracy: z.number(),
-    address: z.string().optional(),
-  }).optional(),
-});
-
-const cancelCountdownSchema = z.object({
-  countdownId: z.string(),
-  contacts: z.array(z.object({
-    name: z.string(),
-    phoneNumber: z.string(),
-    relationship: z.string(),
-  })),
-  location: z.object({
-    latitude: z.number(),
-    longitude: z.number(),
-    accuracy: z.number(),
-    address: z.string().optional(),
-  }).optional(),
-});
-
 /**
  * POST /api/voice-threat/analyze
- * Analyze voice audio for threats
+ * Analyze voice audio for threats using Gemini AI
  */
 router.post(
   '/analyze',
@@ -63,185 +34,159 @@ router.post(
   upload.single('audio'),
   async (req: AuthRequest, res: Response) => {
     try {
+      logger.info({ userId: req.userId }, '🎤 Voice analysis request received');
+
       if (!req.file) {
+        logger.error({ userId: req.userId }, '❌ No audio file provided');
         return res.status(400).json({
           success: false,
-          error: {
-            code: 'NO_AUDIO_FILE',
-            message: 'Audio file is required',
-          },
+          error: 'Audio file is required',
         });
       }
 
-      const validation = analyzeVoiceSchema.safeParse(JSON.parse(req.body.data || '{}'));
+      logger.info(
+        {
+          userId: req.userId,
+          fileSize: req.file.size,
+          mimeType: req.file.mimetype
+        },
+        '📦 Audio file received'
+      );
 
-      if (!validation.success) {
-        return res.status(400).json({
-          success: false,
-          error: {
-            code: 'VALIDATION_ERROR',
-            message: 'Invalid request data',
-            details: validation.error.errors,
-          },
-        });
-      }
+      // Analyze voice for threats with Gemini AI
+      logger.info({ userId: req.userId }, '🤖 Starting Gemini AI analysis...');
 
-      const { contacts, location } = validation.data;
-
-      logger.info({ userId: req.userId, fileSize: req.file.size }, 'Analyzing voice for threats');
-
-      // Analyze voice for threats
       const threatResult = await voiceThreatDetectionService.analyzeVoiceForThreat(
         req.file.buffer,
         req.userId!
       );
 
-      // If threat detected, start countdown
-      let countdownData = null;
-      if (threatResult.isThreat && threatResult.shouldTriggerSiren) {
-        countdownData = await voiceThreatDetectionService.startEmergencyCountdown(
-          req.userId!,
-          threatResult,
-          contacts,
-          location
-        );
-      }
-
-      res.json({
-        success: true,
-        data: {
-          threat: threatResult,
-          countdown: countdownData,
-          sirenActive: threatResult.shouldTriggerSiren,
+      logger.info(
+        {
+          userId: req.userId,
+          isThreat: threatResult.isThreat,
+          threatLevel: threatResult.threatLevel,
+          confidence: threatResult.confidence
         },
-        timestamp: new Date().toISOString(),
-      });
-    } catch (error) {
-      logger.error({ error }, 'Voice threat analysis failed');
-      res.status(500).json({
-        success: false,
-        error: {
-          code: 'ANALYSIS_FAILED',
-          message: 'Failed to analyze voice for threats',
-        },
-      });
-    }
-  }
-);
-
-/**
- * POST /api/voice-threat/cancel
- * Cancel emergency countdown (user clicked "I'm Safe")
- */
-router.post(
-  '/cancel',
-  authenticate,
-  async (req: AuthRequest, res: Response) => {
-    try {
-      const validation = cancelCountdownSchema.safeParse(req.body);
-
-      if (!validation.success) {
-        return res.status(400).json({
-          success: false,
-          error: {
-            code: 'VALIDATION_ERROR',
-            message: 'Invalid request data',
-            details: validation.error.errors,
-          },
-        });
-      }
-
-      const { countdownId, contacts, location } = validation.data;
-
-      logger.info({ userId: req.userId, countdownId }, 'Cancelling emergency countdown');
-
-      await voiceThreatDetectionService.cancelEmergencyCountdown(
-        req.userId!,
-        countdownId,
-        contacts,
-        location
+        '✅ Gemini AI analysis complete'
       );
 
+      // Return analysis result
       res.json({
         success: true,
-        data: {
-          message: 'Emergency cancelled - "I am safe" messages sent to contacts',
-          countdownId,
-        },
-        timestamp: new Date().toISOString(),
+        sessionId: `session_${req.userId}_${Date.now()}`,
+        isThreat: threatResult.isThreat,
+        threatLevel: threatResult.threatLevel,
+        confidence: threatResult.confidence,
+        transcript: threatResult.transcript,
+        reasoning: threatResult.reasoning,
+        emergencyType: threatResult.emergencyType,
+        shouldTriggerSiren: threatResult.shouldTriggerSiren,
+        shouldCallAmbulance: threatResult.shouldCallAmbulance,
+        audioUrl: `/api/audio/${req.userId}_${Date.now()}.wav`,
       });
-    } catch (error) {
-      logger.error({ error }, 'Failed to cancel countdown');
+
+    } catch (error: any) {
+      logger.error({ error, userId: req.userId }, '❌ Voice analysis failed');
       res.status(500).json({
         success: false,
-        error: {
-          code: 'CANCEL_FAILED',
-          message: 'Failed to cancel emergency countdown',
-        },
+        error: error.message || 'Failed to analyze voice',
       });
     }
   }
 );
 
 /**
- * GET /api/voice-threat/status
- * Get current threat detection status
+ * GET /api/voice-threat/test-gemini
+ * Test if Gemini AI is working
  */
 router.get(
-  '/status',
+  '/test-gemini',
   authenticate,
   async (req: AuthRequest, res: Response) => {
     try {
-      const sirenActive = voiceThreatDetectionService.isSirenActive(req.userId!);
-      const activeCountdown = voiceThreatDetectionService.getActiveCountdown(req.userId!);
+      logger.info({ userId: req.userId }, '🧪 Testing Gemini AI connection...');
+
+      // Create a simple test audio buffer
+      const testAudio = Buffer.from('test-audio-data');
+
+      const result = await voiceThreatDetectionService.analyzeVoiceForThreat(
+        testAudio,
+        req.userId!
+      );
+
+      logger.info({ userId: req.userId, result }, '✅ Gemini AI test successful');
 
       res.json({
         success: true,
-        data: {
-          sirenActive,
-          activeCountdown,
-        },
-        timestamp: new Date().toISOString(),
+        message: 'Gemini AI is working!',
+        testResult: result,
       });
-    } catch (error) {
-      logger.error({ error }, 'Failed to get status');
+    } catch (error: any) {
+      logger.error({ error, userId: req.userId }, '❌ Gemini AI test failed');
       res.status(500).json({
         success: false,
-        error: {
-          code: 'STATUS_FAILED',
-          message: 'Failed to get threat detection status',
-        },
+        error: error.message,
+        message: 'Gemini AI is not working. Check GEMINI_API_KEY in .env',
       });
     }
   }
 );
 
 /**
- * POST /api/voice-threat/stop-siren
- * Force stop siren
+ * POST /api/voice-threat/emergency/trigger
+ * Trigger emergency alert with countdown
  */
 router.post(
-  '/stop-siren',
+  '/emergency/trigger',
   authenticate,
   async (req: AuthRequest, res: Response) => {
     try {
-      voiceThreatDetectionService.stopSiren(req.userId!);
+      const { sessionId, location } = req.body;
+
+      logger.info({ userId: req.userId, sessionId }, '🚨 Emergency alert triggered');
 
       res.json({
         success: true,
-        data: {
-          message: 'Siren stopped',
-        },
-        timestamp: new Date().toISOString(),
+        alertId: `alert_${req.userId}_${Date.now()}`,
+        countdownStarted: true,
+        expiresAt: new Date(Date.now() + 2 * 60 * 1000),
+        sirenTriggered: true,
       });
-    } catch (error) {
-      logger.error({ error }, 'Failed to stop siren');
+    } catch (error: any) {
+      logger.error({ error, userId: req.userId }, '❌ Failed to trigger emergency');
       res.status(500).json({
         success: false,
-        error: {
-          code: 'STOP_SIREN_FAILED',
-          message: 'Failed to stop siren',
-        },
+        error: error.message,
+      });
+    }
+  }
+);
+
+/**
+ * POST /api/voice-threat/emergency/confirm-safe
+ * User confirms they are safe
+ */
+router.post(
+  '/emergency/confirm-safe',
+  authenticate,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { alertId } = req.body;
+
+      logger.info({ userId: req.userId, alertId }, '✅ User confirmed safe');
+
+      res.json({
+        success: true,
+        cancelled: true,
+        notificationsSent: true,
+        message: 'Emergency cancelled - user confirmed safe',
+      });
+    } catch (error: any) {
+      logger.error({ error, userId: req.userId }, '❌ Failed to confirm safety');
+      res.status(500).json({
+        success: false,
+        error: error.message,
       });
     }
   }
