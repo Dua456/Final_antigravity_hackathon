@@ -22,10 +22,8 @@ export class FirebaseNeonSyncService {
     try {
       logger.info({ firebaseUid: firebaseUser.uid }, 'Syncing Firebase user to Neon');
 
-      const db = databaseService.getPool();
-
       // Check if user already exists
-      const existingUser = await db.query(
+      const existingUser = await databaseService.query(
         'SELECT id FROM users WHERE firebase_uid = $1',
         [firebaseUser.uid]
       );
@@ -34,7 +32,7 @@ export class FirebaseNeonSyncService {
         // Update existing user
         const userId = existingUser.rows[0].id;
 
-        await db.query(
+        await databaseService.query(
           `UPDATE users
            SET email = $1,
                full_name = $2,
@@ -56,7 +54,7 @@ export class FirebaseNeonSyncService {
         return userId;
       } else {
         // Create new user
-        const result = await db.query(
+        const result = await databaseService.query(
           `INSERT INTO users (
             firebase_uid,
             email,
@@ -92,8 +90,7 @@ export class FirebaseNeonSyncService {
    */
   async getNeonUserId(firebaseUid: string): Promise<string | null> {
     try {
-      const db = databaseService.getPool();
-      const result = await db.query(
+      const result = await databaseService.query(
         'SELECT id FROM users WHERE firebase_uid = $1',
         [firebaseUid]
       );

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useVoiceThreatDetection } from '@/hooks/useVoiceThreatDetection';
+import { useVoiceThreatDetectionWithFeedback } from '@/hooks/useVoiceThreatDetectionWithFeedback';
 import { FreeEmergencySystem } from '@/components/FreeEmergencySystem';
 import { CarrierSelector } from '@/components/CarrierSelector';
 
@@ -21,7 +21,7 @@ export default function FreeEmergencyPage() {
     alertActive,
     startRecording,
     stopRecording,
-  } = useVoiceThreatDetection();
+  } = useVoiceThreatDetectionWithFeedback();
 
   const [contacts, setContacts] = useState<EmergencyContact[]>([
     {

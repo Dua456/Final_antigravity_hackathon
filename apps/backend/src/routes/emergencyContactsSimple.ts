@@ -42,9 +42,7 @@ router.post('/add', authenticate, async (req: AuthRequest, res: Response) => {
     // Add + if not present
     const formattedPhone = cleanPhone.startsWith('+') ? cleanPhone : `+${cleanPhone}`;
 
-    const db = databaseService.getPool();
-
-    const result = await db.query(
+    const result = await databaseService.query(
       `INSERT INTO emergency_contacts (
         user_id,
         name,
@@ -90,9 +88,7 @@ router.get('/list', authenticate, async (req: AuthRequest, res: Response) => {
   try {
     logger.info({ userId: req.userId }, '📋 Fetching emergency contacts');
 
-    const db = databaseService.getPool();
-
-    const result = await db.query(
+    const result = await databaseService.query(
       `SELECT id, name, phone_number, relationship, carrier, created_at
        FROM emergency_contacts
        WHERE user_id = $1 AND is_active = true
@@ -100,7 +96,7 @@ router.get('/list', authenticate, async (req: AuthRequest, res: Response) => {
       [req.userId]
     );
 
-    const contacts = result.rows.map((row) => ({
+    const contacts = result.rows.map((row: any) => ({
       id: row.id,
       name: row.name,
       phoneNumber: row.phone_number,
@@ -135,10 +131,8 @@ router.delete('/:contactId', authenticate, async (req: AuthRequest, res: Respons
 
     logger.info({ userId: req.userId, contactId }, '🗑️ Deleting contact');
 
-    const db = databaseService.getPool();
-
     // Verify ownership
-    const checkResult = await db.query(
+    const checkResult = await databaseService.query(
       'SELECT user_id FROM emergency_contacts WHERE id = $1',
       [contactId]
     );
@@ -158,7 +152,7 @@ router.delete('/:contactId', authenticate, async (req: AuthRequest, res: Respons
     }
 
     // Soft delete
-    await db.query(
+    await databaseService.query(
       'UPDATE emergency_contacts SET is_active = false, updated_at = NOW() WHERE id = $1',
       [contactId]
     );

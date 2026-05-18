@@ -149,6 +149,12 @@ export function useVoiceThreatDetectionWithFeedback() {
               requireInteraction: true,
             });
           }
+
+          // AUTO-TRIGGER EMERGENCY ALERT (don't wait for manual button click)
+          console.log('🚨 Auto-triggering emergency alert...');
+          setTimeout(() => {
+            triggerEmergencyInternal(result);
+          }, 1000); // 1 second delay to show threat info first
         } else {
           updateStatus('✅ No threat detected - You are safe');
           setThreatDetected(false);
@@ -166,15 +172,13 @@ export function useVoiceThreatDetectionWithFeedback() {
     [updateStatus]
   );
 
-  // Trigger emergency alert
-  const triggerEmergency = useCallback(async () => {
-    if (!threatData) return;
-
+  // Internal function to trigger emergency (can be called with data directly)
+  const triggerEmergencyInternal = useCallback(async (data: ThreatData) => {
     try {
       updateStatus('🚨 Triggering emergency alert...');
 
       const response = await axios.post('/api/voice-threat/emergency/trigger', {
-        sessionId: threatData.audioUrl,
+        sessionId: data.audioUrl || 'unknown',
         location: {
           latitude: 0,
           longitude: 0,
@@ -184,8 +188,11 @@ export function useVoiceThreatDetectionWithFeedback() {
 
       const alert = response.data;
       setAlertData({
-        ...alert,
-        ...threatData,
+        alertId: alert.alertId,
+        threatLevel: data.threatLevel,
+        emergencyType: data.emergencyType || 'UNKNOWN',
+        confidence: data.confidence,
+        reasoning: data.reasoning,
         expiresAt: new Date(alert.expiresAt),
       });
       setAlertActive(true);
@@ -201,6 +208,7 @@ export function useVoiceThreatDetectionWithFeedback() {
               clearInterval(countdownIntervalRef.current);
             }
             updateStatus('🚨 Emergency activated - Alerts sent!');
+            sendEmergencyAlerts(alert.alertId);
             return 0;
           }
           return prev - 1;
@@ -212,7 +220,13 @@ export function useVoiceThreatDetectionWithFeedback() {
       updateStatus('❌ ' + errorMsg);
       console.error('Emergency trigger error:', err);
     }
-  }, [threatData, updateStatus]);
+  }, [updateStatus]);
+
+  // Trigger emergency alert (public function)
+  const triggerEmergency = useCallback(async () => {
+    if (!threatData) return;
+    await triggerEmergencyInternal(threatData);
+  }, [threatData, triggerEmergencyInternal]);
 
   // Confirm safe
   const confirmSafe = useCallback(async () => {
@@ -267,6 +281,51 @@ export function useVoiceThreatDetectionWithFeedback() {
     setTimeout(() => {
       updateStatus('✅ Siren test complete');
     }, 2000);
+  }, [updateStatus]);
+
+  // Send emergency alerts (SMS, WhatsApp, Calls)
+  const sendEmergencyAlerts = useCallback(async (alertId: string) => {
+    try {
+      console.log('📱 Sending emergency alerts...');
+      updateStatus('📱 Sending emergency alerts to contacts...');
+
+      // Get user's location
+      let location = { latitude: 0, longitude: 0 };
+      if ('geolocation' in navigator) {
+        try {
+          const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          });
+          location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          console.log('📍 Location obtained:', location);
+        } catch (err) {
+          console.warn('⚠️ Could not get location:', err);
+        }
+      }
+
+      // Send alerts via API
+      const response = await axios.post('/api/voice-threat/emergency/send-alerts', {
+        alertId,
+        location,
+      });
+
+      console.log('✅ Alerts sent:', response.data);
+      updateStatus('✅ Emergency alerts sent to all contacts!');
+
+      // Show notification
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('🚨 Emergency Alerts Sent', {
+          body: 'All emergency contacts have been notified',
+          icon: '/icon.svg',
+        });
+      }
+    } catch (err: any) {
+      console.error('❌ Failed to send alerts:', err);
+      updateStatus('⚠️ Some alerts may have failed to send');
+    }
   }, [updateStatus]);
 
   // Cleanup

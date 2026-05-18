@@ -164,6 +164,136 @@ router.post(
 );
 
 /**
+ * POST /api/voice-threat/emergency/send-alerts
+ * Send emergency alerts to all contacts (SMS, WhatsApp, Calls)
+ */
+router.post(
+  '/emergency/send-alerts',
+  authenticate,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { alertId, location } = req.body;
+
+      logger.info({ userId: req.userId, alertId, location }, '📱 Sending emergency alerts');
+
+      // Get user info
+      const { databaseService } = await import('../services/database.service');
+
+      const userResult = await databaseService.query(
+        'SELECT full_name, phone_number FROM users WHERE id = $1',
+        [req.userId]
+      );
+
+      if (userResult.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          error: 'User not found',
+        });
+      }
+
+      const user = userResult.rows[0];
+
+      // Get all emergency contacts
+      const contactsResult = await databaseService.query(
+        `SELECT id, name, phone_number, relationship, carrier
+         FROM emergency_contacts
+         WHERE user_id = $1 AND is_active = true
+         ORDER BY priority ASC`,
+        [req.userId]
+      );
+
+      const contacts = contactsResult.rows;
+
+      if (contacts.length === 0) {
+        logger.warn({ userId: req.userId }, '⚠️ No emergency contacts found');
+        return res.json({
+          success: true,
+          message: 'No emergency contacts to notify',
+          alertsSent: 0,
+        });
+      }
+
+      logger.info({ userId: req.userId, contactCount: contacts.length }, '📋 Found emergency contacts');
+
+      // Create emergency message
+      const locationUrl = location?.latitude && location?.longitude
+        ? `https://www.google.com/maps?q=${location.latitude},${location.longitude}`
+        : 'Location unavailable';
+
+      const message = `🚨 EMERGENCY ALERT 🚨\n\n${user.full_name || 'Your contact'} needs help!\n\nLocation: ${locationUrl}\n\nThis is an automated emergency alert from Silent Siren.`;
+
+      // Send alerts to each contact
+      const { freeSMSService } = await import('../services/freeSMS.service');
+      const results = [];
+
+      for (const contact of contacts) {
+        try {
+          // Send SMS if carrier is available
+          if (contact.carrier) {
+            logger.info({ contactId: contact.id, carrier: contact.carrier }, '📧 Sending SMS via email gateway');
+            await freeSMSService.sendSMS(contact.phone_number, contact.carrier, message);
+            results.push({
+              contactId: contact.id,
+              name: contact.name,
+              method: 'SMS',
+              success: true,
+            });
+          }
+
+          // Generate WhatsApp link (frontend will open it)
+          const whatsappUrl = `https://wa.me/${contact.phone_number.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+          results.push({
+            contactId: contact.id,
+            name: contact.name,
+            method: 'WhatsApp',
+            url: whatsappUrl,
+            success: true,
+          });
+
+          // Generate call link (frontend will open it)
+          const callUrl = `tel:${contact.phone_number}`;
+          results.push({
+            contactId: contact.id,
+            name: contact.name,
+            method: 'Call',
+            url: callUrl,
+            success: true,
+          });
+
+          logger.info({ contactId: contact.id, name: contact.name }, '✅ Alerts prepared for contact');
+        } catch (error: any) {
+          logger.error({ error, contactId: contact.id }, '❌ Failed to send alert to contact');
+          results.push({
+            contactId: contact.id,
+            name: contact.name,
+            method: 'All',
+            success: false,
+            error: error.message,
+          });
+        }
+      }
+
+      logger.info({ userId: req.userId, totalAlerts: results.length }, '✅ Emergency alerts sent');
+
+      res.json({
+        success: true,
+        message: 'Emergency alerts sent to all contacts',
+        alertsSent: results.length,
+        contacts: contacts.length,
+        results,
+        locationUrl,
+      });
+    } catch (error: any) {
+      logger.error({ error, userId: req.userId }, '❌ Failed to send emergency alerts');
+      res.status(500).json({
+        success: false,
+        error: error.message || 'Failed to send emergency alerts',
+      });
+    }
+  }
+);
+
+/**
  * POST /api/voice-threat/emergency/confirm-safe
  * User confirms they are safe
  */
@@ -175,6 +305,39 @@ router.post(
       const { alertId } = req.body;
 
       logger.info({ userId: req.userId, alertId }, '✅ User confirmed safe');
+
+      // Get user info
+      const { databaseService } = await import('../services/database.service');
+
+      const userResult = await databaseService.query(
+        'SELECT full_name FROM users WHERE id = $1',
+        [req.userId]
+      );
+
+      const user = userResult.rows[0];
+
+      // Get all emergency contacts
+      const contactsResult = await databaseService.query(
+        `SELECT name, phone_number, carrier
+         FROM emergency_contacts
+         WHERE user_id = $1 AND is_active = true`,
+        [req.userId]
+      );
+
+      // Send "I am safe" message to all contacts
+      const { freeSMSService } = await import('../services/freeSMS.service');
+      const safeMessage = `✅ ${user?.full_name || 'Your contact'} is SAFE.\n\nThe emergency alert has been cancelled. No assistance needed.`;
+
+      for (const contact of contactsResult.rows) {
+        if (contact.carrier) {
+          try {
+            await freeSMSService.sendSMS(contact.phone_number, contact.carrier, safeMessage);
+            logger.info({ contactName: contact.name }, '✅ Safe message sent');
+          } catch (error) {
+            logger.error({ error, contactName: contact.name }, '❌ Failed to send safe message');
+          }
+        }
+      }
 
       res.json({
         success: true,

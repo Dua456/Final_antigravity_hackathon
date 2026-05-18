@@ -66,8 +66,12 @@ export default function VoiceThreatDetectionDemo() {
               confidence={alertData.confidence}
               reasoning={alertData.reasoning}
               expiresAt={alertData.expiresAt}
-              onConfirmSafe={confirmSafe}
-              onCancel={cancelAlert}
+              countdownId={alertData.alertId}
+              onCancel={confirmSafe}
+              onExpired={() => {
+                console.log('⏰ Countdown expired - emergency alerts sent');
+                cancelAlert();
+              }}
             />
           </div>
         )}
@@ -119,7 +123,7 @@ export default function VoiceThreatDetectionDemo() {
           </div>
         </div>
 
-        {/* Threat Detection Result */}
+        {/* Threat Detection Result - Only show briefly before auto-triggering */}
         {threatDetected && threatData && !alertActive && (
           <div className="bg-red-500/20 backdrop-blur-lg border-4 border-red-500 rounded-2xl p-8 mb-6 animate-pulse">
             <div className="flex items-center gap-4 mb-6">
@@ -130,11 +134,11 @@ export default function VoiceThreatDetectionDemo() {
                 <h3 className="text-3xl font-bold text-white mb-1">
                   THREAT DETECTED!
                 </h3>
-                <p className="text-red-200 text-lg">Emergency response required</p>
+                <p className="text-red-200 text-lg">Starting emergency countdown...</p>
               </div>
             </div>
 
-            <div className="bg-black/30 rounded-lg p-6 mb-6 space-y-3">
+            <div className="bg-black/30 rounded-lg p-6 space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-white font-semibold">Type:</span>
                 <span className="text-red-300 font-bold text-lg">{threatData.emergencyType}</span>
@@ -159,13 +163,6 @@ export default function VoiceThreatDetectionDemo() {
                 <p className="text-gray-300">{threatData.reasoning}</p>
               </div>
             </div>
-
-            <button
-              onClick={triggerEmergency}
-              className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xl rounded-lg shadow-lg transition-all transform hover:scale-105"
-            >
-              🚨 TRIGGER EMERGENCY ALERT
-            </button>
           </div>
         )}
 

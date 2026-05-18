@@ -53,7 +53,7 @@ router.post(
         });
       }
     } catch (error) {
-      logger.error('Error sending SMS', { error, userId: req.user?.id });
+      logger.error('Error sending SMS', { error, userId: req.userId });
       res.status(500).json({
         success: false,
         message: 'Failed to send SMS',
@@ -82,7 +82,7 @@ router.post(
         stats: result,
       });
     } catch (error) {
-      logger.error('Error sending emergency alerts', { error, userId: req.user?.id });
+      logger.error('Error sending emergency alerts', { error, userId: req.userId });
       res.status(500).json({
         success: false,
         message: 'Failed to send emergency alerts',

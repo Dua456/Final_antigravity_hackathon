@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useVoiceThreatDetection } from '@/hooks/useVoiceThreatDetection';
+import { useVoiceThreatDetectionWithFeedback } from '@/hooks/useVoiceThreatDetectionWithFeedback';
 import { EmergencyAlert } from '@/components/EmergencyAlert';
 
 export default function VoiceThreatDetectionPage() {
@@ -18,8 +18,7 @@ export default function VoiceThreatDetectionPage() {
     stopRecording,
     confirmSafe,
     cancelAlert,
-    triggerManualEmergency,
-  } = useVoiceThreatDetection();
+  } = useVoiceThreatDetectionWithFeedback();
 
   const [emergencyContacts, setEmergencyContacts] = useState([
     { name: 'Emergency Contact 1', phoneNumber: '+1234567890', relationship: 'Family' },
@@ -42,13 +41,17 @@ export default function VoiceThreatDetectionPage() {
         {alertActive && alertData && (
           <div className="mb-6">
             <EmergencyAlert
-              threatLevel={alertData.threatLevel}
+              threatLevel={alertData.threatLevel as any}
               emergencyType={alertData.emergencyType}
               confidence={alertData.confidence}
               reasoning={alertData.reasoning}
               expiresAt={alertData.expiresAt}
-              onConfirmSafe={confirmSafe}
-              onCancel={cancelAlert}
+              countdownId={alertData.alertId}
+              onCancel={confirmSafe}
+              onExpired={() => {
+                console.log('⏰ Countdown expired');
+                cancelAlert();
+              }}
             />
           </div>
         )}
@@ -92,15 +95,6 @@ export default function VoiceThreatDetectionPage() {
               `}
             >
               {isRecording ? '⏹️ Stop' : '🎤 Record'}
-            </button>
-
-            {/* Manual Emergency Button */}
-            <button
-              onClick={triggerManualEmergency}
-              disabled={alertActive || isAnalyzing}
-              className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              🚨 Manual Emergency Trigger
             </button>
           </div>
 
