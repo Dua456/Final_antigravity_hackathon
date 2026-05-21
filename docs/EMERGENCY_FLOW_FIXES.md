@@ -21,6 +21,7 @@ User reported: "Gemini is analyzing voice but threat not showing, siren not play
 **File**: `apps/frontend/src/hooks/useVoiceThreatDetectionWithFeedback.ts`
 
 **Changes**:
+
 - Added automatic emergency trigger when threat detected (no manual button needed)
 - Countdown starts automatically 1 second after threat detection
 - Added `triggerEmergencyInternal()` function to handle both auto and manual triggers
@@ -40,6 +41,7 @@ setTimeout(() => {
 **Added**: `POST /api/voice-threat/emergency/send-alerts`
 
 **Features**:
+
 - Fetches all emergency contacts from database
 - Gets user's GPS location
 - Sends SMS via email gateway (free)
@@ -48,6 +50,7 @@ setTimeout(() => {
 - Returns results for each contact
 
 **Flow**:
+
 ```
 Countdown expires → sendEmergencyAlerts() called → API sends:
   ├─ SMS via email gateway (jazz, telenor, zong, etc.)
@@ -62,6 +65,7 @@ Countdown expires → sendEmergencyAlerts() called → API sends:
 **Updated**: `POST /api/voice-threat/emergency/confirm-safe`
 
 **Features**:
+
 - Sends "I am safe" message to all contacts via SMS
 - Cancels countdown timer
 - Stops siren
@@ -70,6 +74,7 @@ Countdown expires → sendEmergencyAlerts() called → API sends:
 ### 4. Database Service Fixes ✅
 
 **Files Fixed**:
+
 - `apps/backend/src/services/firebaseNeonSync.service.ts`
 - `apps/backend/src/routes/emergencyContactsSimple.ts`
 - `apps/backend/src/routes/voiceThreat.ts`
@@ -80,10 +85,12 @@ Countdown expires → sendEmergencyAlerts() called → API sends:
 ### 5. Component Prop Fixes ✅
 
 **Files Fixed**:
+
 - `apps/frontend/src/app/emergency/voice-detection-demo/page.tsx`
 - `apps/frontend/src/app/emergency/voice-threat/page.tsx`
 
 **Changes**:
+
 - Updated EmergencyAlert props to match component interface
 - Added `countdownId` prop
 - Changed `onConfirmSafe` to `onCancel`
@@ -92,10 +99,12 @@ Countdown expires → sendEmergencyAlerts() called → API sends:
 ### 6. TypeScript Compilation Fixes ✅
 
 **Backend**:
+
 - Fixed missing `Request` import in `ai.ts`
 - Fixed all database service calls
 
 **Frontend**:
+
 - Updated all pages to use `useVoiceThreatDetectionWithFeedback` hook
 - Fixed EmergencyAlert component props
 - Disabled ESLint during builds (warnings don't block deployment)
@@ -160,6 +169,7 @@ Countdown expires → sendEmergencyAlerts() called → API sends:
 ## Files Modified
 
 ### Backend
+
 1. `apps/backend/src/routes/voiceThreat.ts` - Added send-alerts endpoint
 2. `apps/backend/src/routes/emergencyContactsSimple.ts` - Fixed database calls
 3. `apps/backend/src/routes/emergencySMS.ts` - Fixed userId references
@@ -167,6 +177,7 @@ Countdown expires → sendEmergencyAlerts() called → API sends:
 5. `apps/backend/src/services/firebaseNeonSync.service.ts` - Fixed database calls
 
 ### Frontend
+
 1. `apps/frontend/src/hooks/useVoiceThreatDetectionWithFeedback.ts` - Auto-trigger + alert sending
 2. `apps/frontend/src/app/emergency/voice-detection-demo/page.tsx` - Fixed props
 3. `apps/frontend/src/app/emergency/voice-threat/page.tsx` - Updated hook + props
@@ -215,6 +226,7 @@ This page has the complete working flow with visual feedback, siren, countdown, 
 ## 🎉 Status: COMPLETE
 
 All issues fixed. System now:
+
 - ✅ Auto-triggers countdown when threat detected
 - ✅ Plays siren immediately
 - ✅ Shows 2-minute countdown timer

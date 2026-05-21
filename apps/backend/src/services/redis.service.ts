@@ -10,9 +10,13 @@ class RedisService {
       return;
     }
 
-    try {
-      const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
+    const redisUrl = process.env.REDIS_URL;
+    if (!redisUrl) {
+      logger.info('REDIS_URL not set - skipping Redis connection');
+      return;
+    }
 
+    try {
       this.client = createClient({
         url: redisUrl,
         socket: {

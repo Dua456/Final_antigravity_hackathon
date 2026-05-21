@@ -30,6 +30,7 @@ npm run dev
 ```
 
 **What works:**
+
 - ✅ User registration/login
 - ✅ Emergency event creation
 - ✅ Database operations
@@ -43,17 +44,20 @@ npm run dev
 **Best for:** Complete feature set with push notifications
 
 **Step 1: Setup Neon Database (15 min)**
+
 1. Go to https://console.neon.tech/
 2. Create project "SilentSiren AI"
 3. Copy connection string
 4. Update `.env`: `DATABASE_URL=postgresql://...`
 5. Run migrations:
+
 ```bash
 psql "YOUR_NEON_URL" -f apps/backend/src/db/schema.sql
 psql "YOUR_NEON_URL" -f apps/backend/src/db/migrations/002_add_fcm_tables.sql
 ```
 
 **Step 2: Setup Firebase (15 min)**
+
 1. Go to https://console.firebase.google.com/
 2. Create project "SilentSiren AI"
 3. Add web app
@@ -62,6 +66,7 @@ psql "YOUR_NEON_URL" -f apps/backend/src/db/migrations/002_add_fcm_tables.sql
 6. Update `.env` (backend) and `.env.local` (frontend)
 
 **Detailed guides:**
+
 - Database: `NEON_SETUP_QUICKSTART.md`
 - Firebase: `FCM_QUICK_REFERENCE.md`
 
@@ -70,11 +75,13 @@ psql "YOUR_NEON_URL" -f apps/backend/src/db/migrations/002_add_fcm_tables.sql
 ## 🧪 Test Your Backend (5 minutes)
 
 ### Test 1: Health Check
+
 ```bash
 curl http://localhost:3001/api/health
 ```
 
 **Expected:**
+
 ```json
 {
   "status": "healthy",
@@ -85,22 +92,25 @@ curl http://localhost:3001/api/health
 ```
 
 ### Test 2: Detailed Health
+
 ```bash
 curl http://localhost:3001/api/health/detailed
 ```
 
 **Expected:**
+
 ```json
 {
   "status": "healthy",
   "services": {
-    "database": {"status": "up"},
-    "redis": {"status": "up"}
+    "database": { "status": "up" },
+    "redis": { "status": "up" }
   }
 }
 ```
 
 ### Test 3: Register User
+
 ```bash
 curl -X POST http://localhost:3001/api/auth/register \
   -H "Content-Type: application/json" \
@@ -112,6 +122,7 @@ curl -X POST http://localhost:3001/api/auth/register \
 ```
 
 **Expected:**
+
 ```json
 {
   "success": true,
@@ -124,6 +135,7 @@ curl -X POST http://localhost:3001/api/auth/register \
 ```
 
 ### Test 4: Create Emergency
+
 ```bash
 # Use the JWT token from registration
 curl -X POST http://localhost:3001/api/emergency/trigger \
@@ -142,6 +154,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger \
 ## 📊 Project Features
 
 ### ✅ Working Now (Without Firebase)
+
 - User authentication (JWT)
 - Emergency event management
 - Database persistence (Neon)
@@ -153,6 +166,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger \
 - Security middleware
 
 ### 🔔 Requires Firebase Setup
+
 - Push notifications
 - Emergency alerts to nearby users
 - Community validation notifications
@@ -199,6 +213,7 @@ hackathon-main/
 A **production-ready emergency notification system** with:
 
 ### Backend Features
+
 - RESTful API with Express
 - JWT authentication
 - PostgreSQL database (Neon)
@@ -212,6 +227,7 @@ A **production-ready emergency notification system** with:
 - Logging
 
 ### Frontend Features
+
 - Next.js/React
 - Push notification support
 - Real-time updates
@@ -219,6 +235,7 @@ A **production-ready emergency notification system** with:
 - Responsive design
 
 ### Database
+
 - 10 tables with relationships
 - Indexes for performance
 - Triggers for auto-updates
@@ -250,16 +267,19 @@ All guides are in your project:
 ## 🆘 Common Issues
 
 ### Backend won't start
+
 - Check if port 3001 is free: `netstat -ano | findstr :3001`
 - Verify .env file exists in project root
 - Check DATABASE_URL is set
 
 ### Database connection failed
+
 - Setup Neon database first
 - Check connection string format
 - Ensure `?sslmode=require` at the end
 
 ### Firebase errors
+
 - Firebase is optional for now
 - Backend will start with a warning
 - Setup later using `FCM_QUICK_REFERENCE.md`
@@ -269,18 +289,21 @@ All guides are in your project:
 ## 🎯 Next Steps
 
 ### Immediate (5 min)
+
 1. ✅ Start backend: `npm run dev`
 2. ✅ Test health endpoint
 3. ✅ Register a user
 4. ✅ Test emergency creation
 
 ### Soon (30 min)
+
 1. Setup Neon database
 2. Setup Firebase FCM
 3. Test push notifications
 4. Deploy to production
 
 ### Optional
+
 1. Fix Gemini API key
 2. Configure Twilio for SMS
 3. Add custom features
@@ -293,6 +316,7 @@ All guides are in your project:
 Your backend is ready to start. Choose your path:
 
 **Quick Test (Path A):**
+
 ```bash
 cd apps/backend
 npm run dev

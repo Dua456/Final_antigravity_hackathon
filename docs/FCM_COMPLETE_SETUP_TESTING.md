@@ -26,12 +26,12 @@ This guide provides step-by-step instructions to set up and test Firebase Cloud 
 
 ```javascript
 const firebaseConfig = {
-  apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef123456"
+  apiKey: 'AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+  authDomain: 'your-project.firebaseapp.com',
+  projectId: 'your-project-id',
+  storageBucket: 'your-project.appspot.com',
+  messagingSenderId: '123456789012',
+  appId: '1:123456789012:web:abcdef123456',
 };
 ```
 
@@ -66,11 +66,12 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Private-Key-Here\n-----E
 ```
 
 **How to get these values from the JSON file:**
+
 ```json
 {
-  "project_id": "your-project-id",  // → FIREBASE_PROJECT_ID
-  "client_email": "firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com",  // → FIREBASE_CLIENT_EMAIL
-  "private_key": "-----BEGIN PRIVATE KEY-----\n..."  // → FIREBASE_PRIVATE_KEY
+  "project_id": "your-project-id", // → FIREBASE_PROJECT_ID
+  "client_email": "firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com", // → FIREBASE_CLIENT_EMAIL
+  "private_key": "-----BEGIN PRIVATE KEY-----\n..." // → FIREBASE_PRIVATE_KEY
 }
 ```
 
@@ -97,7 +98,7 @@ Edit `apps/frontend/public/firebase-messaging-sw.js` and replace the placeholder
 
 ```javascript
 firebase.initializeApp({
-  apiKey: 'YOUR_API_KEY',  // Replace with actual values
+  apiKey: 'YOUR_API_KEY', // Replace with actual values
   authDomain: 'YOUR_AUTH_DOMAIN',
   projectId: 'YOUR_PROJECT_ID',
   storageBucket: 'YOUR_STORAGE_BUCKET',
@@ -156,6 +157,7 @@ npm run dev
 ```
 
 You should see:
+
 ```
 ✅ Database connected successfully
 ✅ Redis connected successfully
@@ -190,6 +192,7 @@ Frontend should start on http://localhost:3000
 6. **Copy the token** - you'll need it for testing!
 
 **Troubleshooting:**
+
 - If no prompt appears, check browser settings > Notifications
 - Ensure you're on localhost or HTTPS
 - Check console for errors
@@ -231,6 +234,7 @@ curl -X POST http://localhost:3001/api/fcm/save-token \
 ```
 
 **Expected response:**
+
 ```json
 {
   "success": true,
@@ -254,6 +258,7 @@ curl -X POST http://localhost:3001/api/fcm/send-test \
 ```
 
 **Expected response:**
+
 ```json
 {
   "success": true,
@@ -284,6 +289,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger \
 ```
 
 This should:
+
 1. Create an emergency event in the database
 2. Send a push notification to all registered devices
 3. Return the event details
@@ -346,9 +352,7 @@ function MyComponent() {
   return (
     <div>
       {permission === 'default' && (
-        <button onClick={requestPermission}>
-          Enable Notifications
-        </button>
+        <button onClick={requestPermission}>Enable Notifications</button>
       )}
       {token && <p>Notifications enabled!</p>}
     </div>
@@ -383,6 +387,7 @@ function MyComponent() {
 ### Issue: "Service worker registration failed"
 
 **Solution:**
+
 - Ensure `firebase-messaging-sw.js` is in `/public` directory
 - Check that Firebase config in service worker is correct
 - Clear browser cache and reload
@@ -390,6 +395,7 @@ function MyComponent() {
 ### Issue: "No FCM token generated"
 
 **Solution:**
+
 - Check notification permission is granted
 - Verify VAPID key is correct
 - Check browser console for errors
@@ -398,6 +404,7 @@ function MyComponent() {
 ### Issue: "Notification not received"
 
 **Solution:**
+
 - Verify token is saved in database
 - Check backend logs for FCM errors
 - Ensure Firebase service account key is valid
@@ -406,6 +413,7 @@ function MyComponent() {
 ### Issue: "Invalid service account"
 
 **Solution:**
+
 - Verify `FIREBASE_PRIVATE_KEY` has `\n` characters
 - Check `FIREBASE_CLIENT_EMAIL` is correct
 - Ensure service account has "Firebase Cloud Messaging Admin" role
@@ -413,6 +421,7 @@ function MyComponent() {
 ### Issue: "CORS error"
 
 **Solution:**
+
 - Ensure backend CORS is configured for your frontend URL
 - Check `NEXT_PUBLIC_APP_URL` in backend .env
 
@@ -448,6 +457,7 @@ function MyComponent() {
 ## Part 11: Free Tier Limits
 
 Firebase Cloud Messaging is **100% FREE** with:
+
 - ✅ Unlimited messages
 - ✅ Unlimited devices
 - ✅ Unlimited topics

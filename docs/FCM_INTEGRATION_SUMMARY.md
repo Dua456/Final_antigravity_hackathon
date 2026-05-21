@@ -11,6 +11,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 ### Backend (Node.js/Express)
 
 #### Services
+
 - **`apps/backend/src/services/fcm.service.ts`**
   - Firebase Admin SDK integration
   - Send single/multicast notifications
@@ -25,6 +26,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
   - Emergency alert distribution
 
 #### Repositories
+
 - **`apps/backend/src/repositories/deviceToken.repository.ts`**
   - CRUD operations for device tokens
   - Find active tokens by user
@@ -32,6 +34,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
   - Statistics
 
 #### Routes
+
 - **`apps/backend/src/routes/fcm.ts`**
   - `POST /api/fcm/save-token` - Save device token
   - `POST /api/fcm/send-test` - Send test notification
@@ -39,6 +42,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
   - `GET /api/fcm/tokens` - List user's tokens
 
 #### Database
+
 - **`apps/backend/src/db/migrations/002_add_fcm_tables.sql`**
   - `device_tokens` table
   - `notification_logs` table
@@ -47,6 +51,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 ### Frontend (Next.js/React)
 
 #### Libraries
+
 - **`apps/frontend/src/lib/firebase.ts`**
   - Firebase initialization
   - Token generation
@@ -54,6 +59,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
   - Save token to backend
 
 #### Hooks
+
 - **`apps/frontend/src/hooks/useFCM.ts`**
   - React hook for FCM
   - Permission management
@@ -61,22 +67,26 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
   - Auto-request option
 
 #### Components
+
 - **`apps/frontend/src/components/NotificationSetup.tsx`**
   - UI for notification permission
   - Token display (dev mode)
   - Error handling
 
 #### Service Worker
+
 - **`apps/frontend/public/firebase-messaging-sw.js`**
   - Background message handler
   - Notification display
   - Click handling
 
 ### Documentation
+
 - **`docs/FCM_INTEGRATION_GUIDE.md`** - Overview and setup
 - **`docs/FCM_COMPLETE_SETUP_TESTING.md`** - Step-by-step testing guide
 
 ### Configuration
+
 - Updated **`packages/config/src/index.ts`** - Added Firebase env vars
 - Updated **`.env.example`** - Added Firebase config template
 - Updated **`apps/backend/src/routes/index.ts`** - Added FCM routes
@@ -87,6 +97,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 ## 🎯 Features Implemented
 
 ### 1. Device Token Management
+
 - ✅ Save FCM tokens to database
 - ✅ Support multiple devices per user
 - ✅ Track device type (web/android/ios)
@@ -94,12 +105,14 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 - ✅ Token validation
 
 ### 2. Notification Types
+
 - ✅ **Emergency Alerts** - Critical incidents
 - ✅ **Community Validation** - Request nearby users to validate
 - ✅ **Test Notifications** - For testing
 - ✅ **Custom Notifications** - Flexible payload
 
 ### 3. Delivery Features
+
 - ✅ Single device notifications
 - ✅ Multicast (multiple devices)
 - ✅ Nearby user targeting (geolocation-based)
@@ -107,6 +120,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 - ✅ Notification click handling
 
 ### 4. Frontend Features
+
 - ✅ Permission request UI
 - ✅ Token generation
 - ✅ Auto-save to backend
@@ -114,6 +128,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 - ✅ Service worker registration
 
 ### 5. Database Features
+
 - ✅ Device tokens storage
 - ✅ Notification logs
 - ✅ User preferences
@@ -124,6 +139,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 ## 🚀 Quick Start
 
 ### 1. Firebase Setup (5 minutes)
+
 ```bash
 # 1. Go to https://console.firebase.google.com/
 # 2. Create project "SilentSiren AI"
@@ -133,6 +149,7 @@ Your SilentSiren AI project now has a **production-ready Firebase Cloud Messagin
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 # Backend
 cd apps/backend
@@ -146,6 +163,7 @@ npm install firebase
 ### 3. Configure Environment
 
 **Backend (.env):**
+
 ```env
 FIREBASE_PROJECT_ID=your-project-id
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
@@ -153,6 +171,7 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 ```
 
 **Frontend (.env.local):**
+
 ```env
 NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
@@ -164,11 +183,13 @@ NEXT_PUBLIC_FIREBASE_VAPID_KEY=BYour-VAPID-Key-Here
 ```
 
 ### 4. Run Database Migration
+
 ```bash
 psql "YOUR_NEON_CONNECTION_STRING" -f apps/backend/src/db/migrations/002_add_fcm_tables.sql
 ```
 
 ### 5. Start Servers
+
 ```bash
 # Terminal 1: Backend
 cd apps/backend
@@ -180,6 +201,7 @@ npm run dev
 ```
 
 ### 6. Test
+
 ```bash
 # 1. Open http://localhost:3000
 # 2. Allow notifications
@@ -201,6 +223,7 @@ curl -X POST http://localhost:3001/api/fcm/send-test \
 ## 📊 Database Schema
 
 ### device_tokens
+
 ```sql
 - id (UUID, PK)
 - user_id (UUID, FK → users)
@@ -214,6 +237,7 @@ curl -X POST http://localhost:3001/api/fcm/send-test \
 ```
 
 ### notification_logs
+
 ```sql
 - id (UUID, PK)
 - user_id (UUID, FK → users)
@@ -237,6 +261,7 @@ curl -X POST http://localhost:3001/api/fcm/send-test \
 ### FCM Endpoints
 
 #### Save Device Token
+
 ```http
 POST /api/fcm/save-token
 Authorization: Bearer {jwt_token}
@@ -253,6 +278,7 @@ Content-Type: application/json
 ```
 
 #### Send Test Notification
+
 ```http
 POST /api/fcm/send-test
 Authorization: Bearer {jwt_token}
@@ -265,6 +291,7 @@ Content-Type: application/json
 ```
 
 #### Remove Token
+
 ```http
 DELETE /api/fcm/token
 Authorization: Bearer {jwt_token}
@@ -276,6 +303,7 @@ Content-Type: application/json
 ```
 
 #### List User Tokens
+
 ```http
 GET /api/fcm/tokens
 Authorization: Bearer {jwt_token}
@@ -286,6 +314,7 @@ Authorization: Bearer {jwt_token}
 ## 💻 Frontend Usage
 
 ### Basic Setup
+
 ```tsx
 import { NotificationSetup } from '@/components/NotificationSetup';
 
@@ -304,29 +333,21 @@ function App() {
 ```
 
 ### Using the Hook
+
 ```tsx
 import { useFCM } from '@/hooks/useFCM';
 
 function MyComponent() {
-  const {
-    token,
-    permission,
-    isSupported,
-    isLoading,
-    error,
-    requestPermission,
-    refreshToken,
-  } = useFCM({
-    authToken: 'your-jwt-token',
-    autoRequest: false,
-  });
+  const { token, permission, isSupported, isLoading, error, requestPermission, refreshToken } =
+    useFCM({
+      authToken: 'your-jwt-token',
+      autoRequest: false,
+    });
 
   return (
     <div>
       {permission === 'default' && (
-        <button onClick={requestPermission}>
-          Enable Notifications
-        </button>
+        <button onClick={requestPermission}>Enable Notifications</button>
       )}
       {permission === 'granted' && <p>✅ Notifications enabled</p>}
       {error && <p>Error: {error}</p>}
@@ -340,6 +361,7 @@ function MyComponent() {
 ## 🎨 Notification Flow
 
 ### Emergency Alert Flow
+
 ```
 1. User triggers emergency
    ↓
@@ -357,6 +379,7 @@ function MyComponent() {
 ```
 
 ### Community Validation Flow
+
 ```
 1. Emergency event created with HIGH/CRITICAL threat
    ↓
@@ -389,6 +412,7 @@ function MyComponent() {
 ## 📈 Monitoring & Analytics
 
 ### Available Metrics
+
 - Total device tokens
 - Active vs inactive tokens
 - Web vs mobile tokens
@@ -397,6 +421,7 @@ function MyComponent() {
 - Click-through rates
 
 ### Get Statistics
+
 ```typescript
 const stats = await deviceTokenRepository.getStatistics();
 // {
@@ -431,21 +456,25 @@ const stats = await deviceTokenRepository.getStatistics();
 ### Common Issues
 
 **"Service worker registration failed"**
+
 - Check `firebase-messaging-sw.js` is in `/public`
 - Verify Firebase config is correct
 - Clear cache and reload
 
 **"No FCM token generated"**
+
 - Check notification permission granted
 - Verify VAPID key is correct
 - Check console for errors
 
 **"Notification not received"**
+
 - Verify token saved in database
 - Check backend logs for FCM errors
 - Test with `/api/fcm/send-test` first
 
 **"Invalid service account"**
+
 - Verify `FIREBASE_PRIVATE_KEY` format
 - Check `FIREBASE_CLIENT_EMAIL` is correct
 - Ensure service account has correct permissions
@@ -455,6 +484,7 @@ const stats = await deviceTokenRepository.getStatistics();
 ## 💰 Cost
 
 Firebase Cloud Messaging is **100% FREE**:
+
 - ✅ Unlimited messages
 - ✅ Unlimited devices
 - ✅ Unlimited topics
@@ -476,12 +506,14 @@ Firebase Cloud Messaging is **100% FREE**:
 ## 🎉 What's Next?
 
 ### Immediate Next Steps
+
 1. Set up Firebase project
 2. Configure environment variables
 3. Run database migration
 4. Test notification flow
 
 ### Future Enhancements
+
 - [ ] Add notification preferences UI
 - [ ] Implement notification history page
 - [ ] Add sound/vibration customization
@@ -497,18 +529,22 @@ Firebase Cloud Messaging is **100% FREE**:
 ### With Existing Features
 
 **Emergency System:**
+
 - Automatically sends notifications on HIGH/CRITICAL emergencies
 - Notifies nearby users for community validation
 
 **User System:**
+
 - Tokens linked to user accounts
 - Multiple devices per user supported
 
 **Database:**
+
 - All notifications logged
 - Token management integrated
 
 **Authentication:**
+
 - JWT required for all FCM endpoints
 - User can only manage their own tokens
 
@@ -530,6 +566,7 @@ Firebase Cloud Messaging is **100% FREE**:
 ## 🎓 Perfect for Student Projects
 
 This implementation is:
+
 - ✅ Well-documented
 - ✅ Easy to understand
 - ✅ Production-quality code

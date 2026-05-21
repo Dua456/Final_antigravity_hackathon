@@ -3,6 +3,7 @@
 ## ✅ What Was Fixed
 
 ### Your Issues:
+
 1. ❌ After 3 minutes, not showing siren page
 2. ❌ No "save me" button
 3. ❌ TextMeBot for WhatsApp not working
@@ -10,17 +11,20 @@
 ### ✅ Fixed:
 
 #### 1. **3-Minute Countdown** ⏱️
+
 - Changed from 2 minutes to **3 minutes (180 seconds)**
 - After 3 minutes, auto-calls ambulance
 - Countdown timer visible during emergency
 
 #### 2. **"SAVE ME" Button Added** 🆘
+
 - New **orange "🆘 SAVE ME!"** button
 - Appears when monitoring is active
 - Instantly triggers emergency without waiting
 - Sends WhatsApp alerts immediately
 
 #### 3. **TextMeBot WhatsApp Working** 💬
+
 - WhatsApp messages sent via TextMeBot API
 - Shows "WhatsApp messages delivered via TextMeBot"
 - Includes GPS location in messages
@@ -31,6 +35,7 @@
 ## 🎯 How It Works Now
 
 ### Automatic Emergency Detection:
+
 ```
 1. Start Protection
    ↓
@@ -52,6 +57,7 @@
 ```
 
 ### Manual "SAVE ME" Button:
+
 ```
 1. Click "🆘 SAVE ME!" button
    ↓
@@ -67,6 +73,7 @@
 ```
 
 ### "I'M SAFE" Button:
+
 ```
 1. Click "DISMISS EMERGENCY (I'M SAFE)"
    ↓
@@ -82,6 +89,7 @@
 ## 📱 WhatsApp Messages
 
 ### Emergency Alert Message:
+
 ```
 🚨 *SILENT SIREN AI ALERT* 🚨
 
@@ -101,6 +109,7 @@ Please check on the person immediately.
 ```
 
 ### Manual "SAVE ME" Message:
+
 ```
 🚨 *MANUAL EMERGENCY - SAVE ME!* 🚨
 
@@ -116,6 +125,7 @@ https://maps.google.com/?q=31.5204,74.3587
 ```
 
 ### After 3 Minutes (Auto-Ambulance):
+
 ```
 🚑 *AMBULANCE NEEDED - AUTO DISPATCH* 🚑
 
@@ -131,6 +141,7 @@ https://maps.google.com/?q=31.5204,74.3587
 ```
 
 ### "I'M SAFE" Message:
+
 ```
 ✅ *I AM SAFE* ✅
 
@@ -150,6 +161,7 @@ https://maps.google.com/?q=31.5204,74.3587
 ## 🧪 Test It Now
 
 ### Test Automatic Detection:
+
 ```
 1. Go to http://localhost:3000/monitor
 2. Page auto-starts monitoring
@@ -164,6 +176,7 @@ https://maps.google.com/?q=31.5204,74.3587
 ```
 
 ### Test Manual "SAVE ME":
+
 ```
 1. Go to http://localhost:3000/monitor
 2. Click "🆘 SAVE ME!" button
@@ -175,6 +188,7 @@ https://maps.google.com/?q=31.5204,74.3587
 ```
 
 ### Test 3-Minute Auto-Ambulance:
+
 ```
 1. Trigger emergency (auto or manual)
 2. Don't click "I'M SAFE"
@@ -187,6 +201,7 @@ https://maps.google.com/?q=31.5204,74.3587
 ## 🎨 UI Changes
 
 ### New "SAVE ME" Button:
+
 - **Color:** Orange-red gradient
 - **Position:** Next to Start/Stop button
 - **Visibility:** Only shows when monitoring is active
@@ -194,6 +209,7 @@ https://maps.google.com/?q=31.5204,74.3587
 - **Border:** Red glow effect
 
 ### Emergency Screen Updates:
+
 - **3-minute countdown** displayed prominently
 - **Yellow timer box** with minutes:seconds format
 - **"Click I'M SAFE below to cancel"** instruction
@@ -203,26 +219,30 @@ https://maps.google.com/?q=31.5204,74.3587
 
 ## 📊 Timeline
 
-| Time | Action |
-|------|--------|
-| 0:00 | Emergency triggered |
-| 0:00 | Siren plays |
-| 0:00 | WhatsApp alerts sent |
+| Time | Action                    |
+| ---- | ------------------------- |
+| 0:00 | Emergency triggered       |
+| 0:00 | Siren plays               |
+| 0:00 | WhatsApp alerts sent      |
 | 0:00 | 3-minute countdown starts |
-| 3:00 | Auto-ambulance call sent |
+| 3:00 | Auto-ambulance call sent  |
 
 ---
 
 ## 🔧 Configuration
 
 ### Change Countdown Duration:
+
 Edit line 36 in `/apps/frontend/src/app/monitor/page.tsx`:
+
 ```typescript
 const [sirenTimeRemaining, setSirenTimeRemaining] = useState(180); // Change 180 to desired seconds
 ```
 
 ### TextMeBot API:
+
 Configure in `/apps/frontend/.env.local`:
+
 ```env
 TEXTMEBOT_API_KEY=your-api-key
 TEXTMEBOT_RECIPIENT_PHONE=+923001234567
@@ -233,11 +253,13 @@ TEXTMEBOT_RECIPIENT_PHONE=+923001234567
 ## ✅ Summary
 
 **Before:**
+
 - ❌ 2-minute countdown
 - ❌ No manual trigger button
 - ❌ TextMeBot not mentioned
 
 **After:**
+
 - ✅ 3-minute countdown
 - ✅ "🆘 SAVE ME!" button
 - ✅ TextMeBot WhatsApp working

@@ -9,6 +9,7 @@ Your SilentSiren AI now has **production-ready push notifications**!
 ## 📦 What Was Built (Summary)
 
 ### Backend (10 files)
+
 - ✅ FCM Service - Firebase Admin SDK integration
 - ✅ Notification Service - High-level orchestration
 - ✅ Device Token Repository - Token management
@@ -18,12 +19,14 @@ Your SilentSiren AI now has **production-ready push notifications**!
 - ✅ Configuration - Environment variables
 
 ### Frontend (4 files)
+
 - ✅ Firebase Library - Client SDK
 - ✅ useFCM Hook - React integration
 - ✅ NotificationSetup Component - UI
 - ✅ Service Worker - Background notifications
 
 ### Documentation (8 files)
+
 - ✅ Complete setup guides
 - ✅ Testing instructions
 - ✅ API reference
@@ -49,10 +52,12 @@ npm install axios --workspace=@silentsiren/backend
 ### Step 2: Setup Neon Database (15 min)
 
 **Quick Steps:**
+
 1. Go to https://console.neon.tech/ → Create project
 2. Copy connection string
 3. Update `.env`: `DATABASE_URL=postgresql://...`
 4. Run migrations:
+
 ```bash
 psql "YOUR_NEON_URL" -f apps/backend/src/db/schema.sql
 psql "YOUR_NEON_URL" -f apps/backend/src/db/migrations/002_add_fcm_tables.sql
@@ -63,6 +68,7 @@ psql "YOUR_NEON_URL" -f apps/backend/src/db/migrations/002_add_fcm_tables.sql
 ### Step 3: Setup Firebase (15 min)
 
 **Quick Steps:**
+
 1. Go to https://console.firebase.google.com/ → Create project
 2. Add web app → Copy config
 3. Generate VAPID key (Cloud Messaging > Web Push certificates)
@@ -93,6 +99,7 @@ curl http://localhost:3001/api/health/detailed
 ## 📋 Environment Variables Checklist
 
 ### Backend (.env)
+
 ```env
 ✅ DATABASE_URL=postgresql://...neon.tech/neondb?sslmode=require
 ✅ FIREBASE_PROJECT_ID=your-project-id
@@ -103,6 +110,7 @@ curl http://localhost:3001/api/health/detailed
 ```
 
 ### Frontend (.env.local)
+
 ```env
 ✅ NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSy...
 ✅ NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
@@ -151,18 +159,21 @@ curl http://localhost:3001/api/fcm/tokens \
 ## 📊 Features Summary
 
 ### Push Notifications
+
 - ✅ Emergency alerts (HIGH/CRITICAL threats)
 - ✅ Community validation requests (nearby users)
 - ✅ Test notifications
 - ✅ Custom notifications
 
 ### Device Management
+
 - ✅ Save/remove tokens
 - ✅ Multiple devices per user
 - ✅ Web/Android/iOS support
 - ✅ Auto-cleanup expired tokens
 
 ### Delivery
+
 - ✅ Single device
 - ✅ Multicast (multiple devices)
 - ✅ Geolocation-based (5km radius)
@@ -173,31 +184,33 @@ curl http://localhost:3001/api/fcm/tokens \
 
 ## 🎯 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/fcm/save-token` | Save device token |
-| POST | `/api/fcm/send-test` | Send test notification |
-| DELETE | `/api/fcm/token` | Remove token |
-| GET | `/api/fcm/tokens` | List user's tokens |
-| POST | `/api/emergency/trigger` | Create emergency (auto-notifies) |
+| Method | Endpoint                 | Description                      |
+| ------ | ------------------------ | -------------------------------- |
+| POST   | `/api/fcm/save-token`    | Save device token                |
+| POST   | `/api/fcm/send-test`     | Send test notification           |
+| DELETE | `/api/fcm/token`         | Remove token                     |
+| GET    | `/api/fcm/tokens`        | List user's tokens               |
+| POST   | `/api/emergency/trigger` | Create emergency (auto-notifies) |
 
 ---
 
 ## 💻 Frontend Usage
 
 ### Option 1: Component
+
 ```tsx
 import { NotificationSetup } from '@/components/NotificationSetup';
 
-<NotificationSetup authToken={yourJwtToken} />
+<NotificationSetup authToken={yourJwtToken} />;
 ```
 
 ### Option 2: Hook
+
 ```tsx
 import { useFCM } from '@/hooks/useFCM';
 
 const { token, permission, requestPermission } = useFCM({
-  authToken: yourJwtToken
+  authToken: yourJwtToken,
 });
 ```
 
@@ -250,20 +263,24 @@ hackathon-main/
 ## 🐛 Common Issues & Fixes
 
 ### "Cannot find module 'firebase-admin'"
+
 ```bash
 npm install firebase-admin --workspace=@silentsiren/backend
 ```
 
 ### "Database connection failed"
+
 - Check `DATABASE_URL` has `?sslmode=require`
 - Verify Neon project is active
 
 ### "No notification received"
+
 - Check notification permission granted
 - Verify token saved in database
 - Test with `/api/fcm/send-test` first
 
 ### "Service worker registration failed"
+
 - Ensure `firebase-messaging-sw.js` is in `/public`
 - Update with your Firebase config
 - Clear browser cache
@@ -273,16 +290,13 @@ npm install firebase-admin --workspace=@silentsiren/backend
 ## 📚 Documentation Guide
 
 **Start Here:**
+
 1. `START_HERE.md` - Setup instructions (this file)
 2. `FCM_QUICK_REFERENCE.md` - Quick reference card
 
-**Detailed Guides:**
-3. `docs/FCM_COMPLETE_SETUP_TESTING.md` - Step-by-step testing
-4. `NEON_SETUP_QUICKSTART.md` - Database setup
+**Detailed Guides:** 3. `docs/FCM_COMPLETE_SETUP_TESTING.md` - Step-by-step testing 4. `NEON_SETUP_QUICKSTART.md` - Database setup
 
-**Reference:**
-5. `INTEGRATION_COMPLETE.md` - Complete summary
-6. `PROJECT_STATUS.md` - Current status
+**Reference:** 5. `INTEGRATION_COMPLETE.md` - Complete summary 6. `PROJECT_STATUS.md` - Current status
 
 ---
 

@@ -16,21 +16,25 @@ Emergency Contact: +923343717260
 ## 📱 What Your App Can Do Now:
 
 ### 1. ✅ SMS Messages (Working)
+
 - Emergency SMS alerts
 - Location sharing via SMS
 - Automatic SMS on HIGH/CRITICAL emergencies
 
 ### 2. ✅ Voice Calls (Working)
+
 - Automatic emergency voice calls
 - Speaks location and emergency details
 - Calls emergency contact automatically
 
 ### 3. ✅ WhatsApp Messages (New - Added)
+
 - Send WhatsApp messages
 - Emergency alerts via WhatsApp
 - Template messages support
 
 ### 4. ⚠️ WhatsApp Calls (Limited)
+
 - Twilio doesn't support WhatsApp voice calls directly via API
 - Would need manual Twilio Voice + WhatsApp integration
 
@@ -65,6 +69,7 @@ Emergency Contact: +923343717260
 ## 🧪 Test Your Twilio Integration:
 
 ### Restart Backend First:
+
 ```powershell
 # Stop backend (Ctrl+C)
 # Start again
@@ -73,6 +78,7 @@ npm run dev
 ```
 
 **Expected output:**
+
 ```
 [INFO] Twilio client initialized
 [INFO] WhatsApp service initialized
@@ -99,6 +105,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger ^
 ```
 
 **What happens:**
+
 1. ✅ Emergency created in database
 2. ✅ SMS sent to +923343717260
 3. ✅ Voice call made to +923343717260
@@ -128,6 +135,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger ^
 ## 📊 What Gets Sent:
 
 ### SMS Message:
+
 ```
 🚨 EMERGENCY ALERT
 
@@ -143,6 +151,7 @@ Respond immediately!
 ```
 
 ### Voice Call:
+
 ```
 (Automated voice says:)
 "Emergency Alert from Silent Siren AI!
@@ -153,6 +162,7 @@ Please respond immediately."
 ```
 
 ### WhatsApp Message:
+
 ```
 🚨 *EMERGENCY ALERT*
 
@@ -188,6 +198,7 @@ Your app already has this built-in:
 ```
 
 This is already in your code! Check:
+
 - Frontend: `apps/frontend/src/components/EmergencyCountdown.tsx`
 - Backend: `apps/backend/src/routes/emergency.ts`
 
@@ -196,6 +207,7 @@ This is already in your code! Check:
 ## 🔧 Configuration Files Updated:
 
 ### ✅ `.env` file:
+
 ```env
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=f11025e0458523fd455e73f075125719
@@ -204,6 +216,7 @@ EMERGENCY_CONTACT_NUMBER=+923343717260
 ```
 
 ### ✅ New file created:
+
 - `apps/backend/src/services/whatsapp.service.ts` - WhatsApp integration
 
 ---
@@ -231,18 +244,21 @@ EMERGENCY_CONTACT_NUMBER=+923343717260
 ## 🚀 Quick Start:
 
 ### Step 1: Restart Backend
+
 ```powershell
 cd apps/backend
 npm run dev
 ```
 
 ### Step 2: Activate WhatsApp Sandbox
+
 1. Open WhatsApp on your phone
 2. Send message to: +14155238886
 3. Message: "join [your-sandbox-code]"
 4. Wait for confirmation
 
 ### Step 3: Test Emergency
+
 ```powershell
 # Trigger emergency (use your JWT token)
 curl -X POST http://localhost:3001/api/emergency/trigger ^
@@ -252,7 +268,9 @@ curl -X POST http://localhost:3001/api/emergency/trigger ^
 ```
 
 ### Step 4: Check Your Phone
+
 You should receive:
+
 - ✅ SMS message
 - ✅ Phone call
 - ✅ WhatsApp message
@@ -287,6 +305,7 @@ You should receive:
 ## 🎉 What You Have Now:
 
 ✅ **Multi-Channel Emergency System:**
+
 - Push Notifications (FCM)
 - SMS Alerts (Twilio)
 - Voice Calls (Twilio)
@@ -297,12 +316,14 @@ You should receive:
 - Nearby user alerts
 
 ✅ **Automatic Triggers:**
+
 - Voice detection → Emergency
 - Manual button → Emergency
 - Panic gesture → Emergency
 - All send multi-channel alerts
 
 ✅ **Smart Features:**
+
 - 10-second countdown
 - Cancel option
 - False alarm detection
@@ -315,16 +336,19 @@ You should receive:
 ## 🆘 Troubleshooting:
 
 ### SMS not received?
+
 - Check Twilio logs
 - Verify phone number format (+92...)
 - Check Twilio account balance
 
 ### Voice call not working?
+
 - Verify Twilio phone number is voice-enabled
 - Check call logs in Twilio console
 - Ensure emergency contact is verified
 
 ### WhatsApp not working?
+
 - Join WhatsApp sandbox first
 - Send "join [code]" to +14155238886
 - Check WhatsApp logs in Twilio

@@ -3,6 +3,7 @@
 ## Overview
 
 This system provides **completely FREE** emergency alerts without using any paid services like Twilio. It uses:
+
 - Email-to-SMS gateways (FREE)
 - Native phone features (FREE)
 - WhatsApp web links (FREE)
@@ -15,24 +16,28 @@ This system provides **completely FREE** emergency alerts without using any paid
 ## 🎯 Features
 
 ### 1. Free SMS via Email Gateway
+
 - Sends SMS through email-to-SMS gateways
 - Supports 14+ carriers (Pakistan, USA, India, UK)
 - No API costs
 - Delivery: 1-5 minutes
 
 ### 2. Native Phone Calls
+
 - Opens user's phone dialer
 - Triggers actual phone calls
 - Plays recorded voice during call
 - No VoIP costs
 
 ### 3. WhatsApp Messages
+
 - Opens WhatsApp with pre-filled message
 - Includes location and audio link
 - Works on all devices
 - No WhatsApp Business API needed
 
 ### 4. Voice Recording Storage
+
 - Stores analyzed audio locally
 - Generates public URLs
 - Automatic cleanup after 30 days
@@ -58,6 +63,7 @@ npm install nodemailer @types/nodemailer
    - Copy the 16-character password
 
 2. **Add to .env:**
+
 ```env
 # Free SMS Configuration
 GMAIL_USER=your-email@gmail.com
@@ -101,6 +107,7 @@ Navigate to: `http://localhost:3000/emergency/free-system`
 ## 🔧 API Endpoints
 
 ### Send Free SMS
+
 ```bash
 POST /api/emergency-sms/send-sms
 Authorization: Bearer <token>
@@ -114,6 +121,7 @@ Body:
 ```
 
 ### Send Emergency Alerts
+
 ```bash
 POST /api/emergency-sms/send-emergency-alerts
 Authorization: Bearer <token>
@@ -134,6 +142,7 @@ Body:
 ```
 
 ### Get Supported Carriers
+
 ```bash
 GET /api/emergency-sms/carriers
 Authorization: Bearer <token>
@@ -144,23 +153,27 @@ Authorization: Bearer <token>
 ## 📱 Supported Carriers
 
 ### Pakistan
+
 - Jazz (`jazz`)
 - Telenor (`telenor`)
 - Zong (`zong`)
 - Ufone (`ufone`)
 
 ### USA
+
 - Verizon (`verizon`)
 - AT&T (`att`)
 - T-Mobile (`tmobile`)
 - Sprint (`sprint`)
 
 ### India
+
 - Airtel (`airtel`)
 - Vodafone (`vodafone`)
 - Jio (`jio`)
 
 ### UK
+
 - O2 (`o2`)
 - Vodafone UK (`vodafone_uk`)
 - Three (`three`)
@@ -170,28 +183,28 @@ Authorization: Bearer <token>
 ## 🎤 How Voice Recording Works
 
 ### 1. Recording
+
 ```typescript
 // User records voice
 const audioBlob = await recordAudio();
 ```
 
 ### 2. Analysis
+
 ```typescript
 // Gemini AI analyzes
 const analysis = await geminiService.analyzeVoice(audioBlob);
 ```
 
 ### 3. Storage
+
 ```typescript
 // Save audio file
-const { publicUrl } = await audioStorageService.saveEmergencyAudio(
-  userId,
-  audioBuffer,
-  sessionId
-);
+const { publicUrl } = await audioStorageService.saveEmergencyAudio(userId, audioBuffer, sessionId);
 ```
 
 ### 4. Sharing
+
 ```typescript
 // Share via SMS/WhatsApp
 const message = `Emergency! Listen: ${publicUrl}`;
@@ -216,31 +229,34 @@ const message = `Emergency! Listen: ${publicUrl}`;
 
 ## 💰 Cost Comparison
 
-| Feature | Twilio (Paid) | Free System |
-|---------|---------------|-------------|
-| SMS | $0.0075/SMS | FREE |
-| Voice Call | $0.013/min | FREE |
-| WhatsApp | $0.005/msg | FREE |
-| Audio Storage | $0.023/GB | FREE |
-| **Monthly (100 alerts)** | **~$15** | **₹0** |
+| Feature                  | Twilio (Paid) | Free System |
+| ------------------------ | ------------- | ----------- |
+| SMS                      | $0.0075/SMS   | FREE        |
+| Voice Call               | $0.013/min    | FREE        |
+| WhatsApp                 | $0.005/msg    | FREE        |
+| Audio Storage            | $0.023/GB     | FREE        |
+| **Monthly (100 alerts)** | **~$15**      | **₹0**      |
 
 ---
 
 ## 🔐 Security Notes
 
 ### Email-to-SMS Gateway
+
 - Uses Gmail SMTP (secure)
 - App-specific password (not main password)
 - Rate limit: 500 emails/day
 - Delivery time: 1-5 minutes
 
 ### Audio Storage
+
 - Stored locally (not in cloud)
 - Public URLs (no authentication needed)
 - Auto-cleanup after 30 days
 - File size limit: 10MB per file
 
 ### Native Phone Features
+
 - Uses device's native apps
 - No data sent to external servers
 - User controls all actions
@@ -251,6 +267,7 @@ const message = `Emergency! Listen: ${publicUrl}`;
 ## 🧪 Testing
 
 ### Test Free SMS
+
 ```bash
 curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
   -H "Authorization: Bearer $TOKEN" \
@@ -263,6 +280,7 @@ curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
 ```
 
 ### Test Emergency System
+
 1. Go to: `http://localhost:3000/emergency/free-system`
 2. Add emergency contacts with carriers
 3. Record voice
@@ -275,17 +293,20 @@ curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
 ## ⚠️ Limitations
 
 ### Email-to-SMS
+
 - ❌ Delivery not guaranteed (depends on carrier)
 - ❌ Slower than Twilio (1-5 minutes)
 - ❌ May not work with all carriers
 - ❌ Limited to 500 SMS/day (Gmail limit)
 
 ### Native Phone Features
+
 - ❌ Requires user interaction (can't auto-send)
 - ❌ Only works on mobile devices
 - ❌ User must have WhatsApp installed
 
 ### Audio Storage
+
 - ❌ Uses server disk space
 - ❌ No CDN (slower downloads)
 - ❌ Manual cleanup needed
@@ -295,21 +316,25 @@ curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
 ## 🎯 Best Practices
 
 ### 1. Carrier Selection
+
 - Always ask users to select their carrier
 - Validate carrier before saving contact
 - Provide fallback to WhatsApp if SMS fails
 
 ### 2. Audio Management
+
 - Compress audio files before storage
 - Set up automatic cleanup (30 days)
 - Monitor disk space usage
 
 ### 3. User Experience
+
 - Show clear instructions for each step
 - Explain that user needs to click "Send" in SMS/WhatsApp
 - Provide alternative methods if one fails
 
 ### 4. Testing
+
 - Test with real phone numbers
 - Verify SMS delivery times
 - Check audio playback on different devices
@@ -319,6 +344,7 @@ curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
 ## 🔄 Comparison: Twilio vs Free System
 
 ### Use Twilio When:
+
 - ✅ Need guaranteed delivery
 - ✅ Need instant SMS (< 1 second)
 - ✅ Need automated sending (no user interaction)
@@ -326,6 +352,7 @@ curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
 - ✅ Need delivery reports
 
 ### Use Free System When:
+
 - ✅ Budget is limited (₹0 cost)
 - ✅ Can accept 1-5 minute delay
 - ✅ User interaction is acceptable
@@ -338,18 +365,19 @@ curl -X POST http://localhost:3001/api/emergency-sms/send-sms \
 
 Based on testing:
 
-| Method | Success Rate | Delivery Time |
-|--------|--------------|---------------|
-| Email-to-SMS | 70-80% | 1-5 minutes |
-| WhatsApp | 95%+ | Instant |
-| Phone Call | 100% | Instant |
-| Audio Playback | 100% | Instant |
+| Method         | Success Rate | Delivery Time |
+| -------------- | ------------ | ------------- |
+| Email-to-SMS   | 70-80%       | 1-5 minutes   |
+| WhatsApp       | 95%+         | Instant       |
+| Phone Call     | 100%         | Instant       |
+| Audio Playback | 100%         | Instant       |
 
 ---
 
 ## 🆘 Troubleshooting
 
 ### SMS Not Delivered
+
 1. Check carrier is correct
 2. Verify Gmail credentials
 3. Check Gmail daily limit (500/day)
@@ -357,18 +385,21 @@ Based on testing:
 5. Use WhatsApp as fallback
 
 ### WhatsApp Not Opening
+
 1. Check WhatsApp is installed
 2. Verify phone number format (+country code)
 3. Try on mobile device (not desktop)
 4. Check browser allows popups
 
 ### Audio Not Playing
+
 1. Check audio file exists
 2. Verify public URL is accessible
 3. Check file format (wav/mp3)
 4. Try different browser
 
 ### Phone Call Not Working
+
 1. Check device supports tel: protocol
 2. Verify on mobile device
 3. Check phone number format
@@ -391,6 +422,7 @@ Based on testing:
 ## 📞 Support
 
 For issues:
+
 1. Check logs: `tail -f apps/backend/logs/app.log`
 2. Test Gmail SMTP: `node test-gmail-smtp.js`
 3. Verify carriers: `GET /api/emergency-sms/carriers`
@@ -401,6 +433,7 @@ For issues:
 ## ✅ Implementation Complete!
 
 All free emergency features are now implemented:
+
 - ✅ Free SMS service
 - ✅ Audio storage service
 - ✅ Emergency call service

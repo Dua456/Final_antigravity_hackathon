@@ -3,6 +3,7 @@
 ## Step 1: Verify Backend is Running ✅
 
 After running `npm run dev`, you should see:
+
 ```
 [INFO] Server running on port 3001 in development mode
 ```
@@ -16,23 +17,32 @@ After running `npm run dev`, you should see:
 ### Open a NEW PowerShell window and run:
 
 ### Test 1: Health Check
+
 ```powershell
 curl http://localhost:3001/api/health
 ```
 
 **Expected:**
+
 ```json
-{"status":"healthy","timestamp":"2026-05-15T...","uptime":5.123,"environment":"development"}
+{
+  "status": "healthy",
+  "timestamp": "2026-05-15T...",
+  "uptime": 5.123,
+  "environment": "development"
+}
 ```
 
 ---
 
 ### Test 2: Register a User
+
 ```powershell
 curl -X POST http://localhost:3001/api/auth/register -H "Content-Type: application/json" -d "{\"phoneNumber\": \"+923343717260\", \"fullName\": \"Test User\", \"email\": \"test@example.com\"}"
 ```
 
 **Expected:**
+
 ```json
 {
   "success": true,
@@ -52,11 +62,13 @@ curl -X POST http://localhost:3001/api/auth/register -H "Content-Type: applicati
 ---
 
 ### Test 3: Login
+
 ```powershell
 curl -X POST http://localhost:3001/api/auth/login -H "Content-Type: application/json" -d "{\"phoneNumber\": \"+923343717260\"}"
 ```
 
 **Expected:**
+
 ```json
 {
   "success": true,
@@ -74,12 +86,14 @@ curl -X POST http://localhost:3001/api/auth/login -H "Content-Type: application/
 ---
 
 ### Test 4: Create Emergency Event
+
 ```powershell
 # Replace YOUR_JWT_TOKEN with the token from registration/login
 curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_JWT_TOKEN" -d "{\"eventType\": \"MANUAL\", \"threatLevel\": \"HIGH\", \"latitude\": 31.5204, \"longitude\": 74.3587, \"address\": \"Lahore, Pakistan\"}"
 ```
 
 **Expected:**
+
 ```json
 {
   "success": true,
@@ -96,11 +110,13 @@ curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: appli
 ---
 
 ### Test 5: Get Emergency History
+
 ```powershell
 curl -X GET http://localhost:3001/api/emergency/history -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
 **Expected:**
+
 ```json
 {
   "success": true,
@@ -114,11 +130,13 @@ curl -X GET http://localhost:3001/api/emergency/history -H "Authorization: Beare
 ---
 
 ### Test 6: Get Emergency Statistics
+
 ```powershell
 curl -X GET http://localhost:3001/api/emergency/statistics -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
 **Expected:**
+
 ```json
 {
   "success": true,
@@ -145,12 +163,14 @@ npm run dev
 ```
 
 **Expected:**
+
 ```
 - Local:        http://localhost:3000
 - Network:      http://192.168.x.x:3000
 ```
 
 ### Open in Browser:
+
 http://localhost:3000
 
 ---
@@ -168,6 +188,7 @@ http://localhost:3000
 ## 📊 What's Working Now:
 
 ### ✅ Backend Features (Port 3001)
+
 - User authentication (JWT)
 - User registration & login
 - Emergency event creation
@@ -180,12 +201,14 @@ http://localhost:3000
 - Logging
 
 ### ✅ Database (Neon PostgreSQL)
+
 - User storage
 - Emergency events
 - Session management
 - Full CRUD operations
 
 ### 🔔 Optional Features (Setup Later)
+
 - Push notifications (requires Firebase)
 - SMS/Call alerts (requires Twilio)
 - AI voice analysis (requires valid Gemini key)
@@ -195,22 +218,26 @@ http://localhost:3000
 ## 🎯 API Endpoints Available:
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 
 ### Emergency
+
 - `POST /api/emergency/trigger` - Create emergency event
 - `POST /api/emergency/cancel/:eventId` - Cancel emergency
 - `GET /api/emergency/history` - Get user's emergency history
 - `GET /api/emergency/statistics` - Get user statistics
 
 ### Health
+
 - `GET /api/health` - Basic health check
 - `GET /api/health/detailed` - Detailed health with services
 - `GET /api/health/ready` - Readiness probe
 - `GET /api/health/live` - Liveness probe
 
 ### FCM (Requires Firebase Setup)
+
 - `POST /api/fcm/save-token` - Save device token
 - `POST /api/fcm/send-test` - Send test notification
 - `DELETE /api/fcm/token` - Remove token
@@ -243,6 +270,7 @@ To enable AI voice analysis:
 ## 📈 Your Progress:
 
 ✅ **Completed:**
+
 - Firebase Cloud Messaging integration (code ready)
 - Neon Database integration (connected)
 - Backend API (running on port 3001)
@@ -251,6 +279,7 @@ To enable AI voice analysis:
 - Database persistence
 
 🔄 **Optional (Setup Later):**
+
 - Firebase configuration (push notifications)
 - Gemini API key (AI voice analysis)
 - Twilio configuration (SMS/Call alerts)

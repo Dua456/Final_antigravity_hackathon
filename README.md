@@ -22,6 +22,7 @@ This is a production-grade monorepo containing:
 SilentSiren AI has been evolved into an **Agentic Crisis Management Engine** meeting all hackathon requirements:
 
 ### 1. Advanced Multi-Agent Workflow
+
 - **Multi-Source Input**: `SignalFusionAgent` aggregates data from ambient voice, GPS coordinates, simulated weather APIs, and traffic/sensor data.
 - **Detected Crisis**: `CrisisVerificationAgent` and `SeverityPredictionAgent` analyze fused signals to confirm incidents and predict spatial-temporal impact (severity, radius).
 - **Action Planning**: `ResourceAllocationAgent` optimizes the dispatch of emergency units (ambulances, police) and `RecoveryAgent` drafts infrastructure restoration plans.
@@ -29,24 +30,26 @@ SilentSiren AI has been evolved into an **Agentic Crisis Management Engine** mee
 - **Outcome**: The `CrisisOrchestrator` centralizes the multi-agent results into a unified outcome sent to the dashboard in real-time.
 
 ### 2. Agent Trace / Logs (Antigravity Trace)
+
 A dedicated `TraceService` captures the full reasoning chain of the AI models:
+
 - **Reasoning Steps**: Agent "Thoughts" (e.g., "Analyzing incoming audio transcript for distress indicators").
 - **Agent Decisions**: Agent "Actions" and "Observations" (e.g., "Fusing multi-modal signals: Confidence 0.88").
 - **Action Execution**: Agent "Conclusions" (e.g., "Allocated 3 units to incident location").
-*These are visualized live on the frontend Dashboard via the `TraceTimeline` component.*
+  _These are visualized live on the frontend Dashboard via the `TraceTimeline` component._
 
 ### 3. Documentation Requirements
+
 - **System Architecture**: Centralized Orchestrator Pattern. A main `CrisisOrchestrator` delegates tasks to specialized agents (SignalFusion, SeverityPrediction, Allocation, etc.), waiting for their JSON-structured output.
 - **Antigravity Usage**: The multi-agent workflow acts as the "brain" of the Command Center, transforming unstructured crisis data (voice panics, weather anomalies) into structured, actionable response plans.
-- **Tools/APIs Used**: 
+- **Tools/APIs Used**:
   - **OpenRouter (Gemini 1.5 Flash, Claude 3, DeepSeek)**: Used as the core AI reasoning mesh with automatic fallbacks.
   - **PositionStack (Geocoding)**: Translates raw GPS into actionable street addresses.
   - **Twilio Voice & SMS**: Automated emergency dispatch.
   - **Google Maps JS API**: Real-time incident visualization.
-- **Assumptions**: 
+- **Assumptions**:
   - Real-world sensor APIs (weather, traffic) are mocked via `fusion.service.ts` for demo purposes.
   - Simulated units (ambulances, police) act instantly within the simulation logic.
-
 
 ## 📁 Project Structure
 

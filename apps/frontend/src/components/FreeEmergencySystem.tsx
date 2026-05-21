@@ -152,9 +152,7 @@ This is an automated emergency alert from SilentSiren.`;
             <div className="w-8 h-8 border-4 border-yellow-600 border-t-transparent rounded-full animate-spin" />
             <div>
               <p className="font-semibold text-yellow-900">Contacting: {currentContact}</p>
-              <p className="text-sm text-yellow-700">
-                Sending WhatsApp, SMS, and making call...
-              </p>
+              <p className="text-sm text-yellow-700">Sending WhatsApp, SMS, and making call...</p>
             </div>
           </div>
           <div className="w-full bg-yellow-200 rounded-full h-2">

@@ -1,6 +1,7 @@
 # 🔑 How to Update Gemini API Key
 
 ## Current Status
+
 Your Gemini API key is invalid. This is the ONLY thing preventing the app from starting.
 
 ## Step-by-Step Instructions
@@ -8,6 +9,7 @@ Your Gemini API key is invalid. This is the ONLY thing preventing the app from s
 ### 1. Get Your API Key
 
 Open this link in your browser:
+
 ```
 https://aistudio.google.com/app/apikey
 ```
@@ -23,6 +25,7 @@ https://aistudio.google.com/app/apikey
 Just paste your new API key here in the chat and I'll update the file.
 
 **Option B: Manual update**
+
 1. Open the file: `.env` (in the project root folder)
 2. Find line 16 that says:
    ```
@@ -37,11 +40,13 @@ Just paste your new API key here in the chat and I'll update the file.
 ### 3. Test It
 
 Run this command to verify it works:
+
 ```bash
 node test-gemini-only.js
 ```
 
 You should see:
+
 ```
 ✅ Gemini API is working!
 🎉 You can now start the servers!
@@ -50,16 +55,19 @@ You should see:
 ### 4. Start the App
 
 Once the test passes, run:
+
 ```bash
 start-servers.bat
 ```
 
 Or:
+
 ```bash
 npm run dev
 ```
 
 The app will start on:
+
 - Frontend: http://localhost:3000
 - Backend: http://localhost:3001
 
@@ -68,11 +76,13 @@ The app will start on:
 ## Troubleshooting
 
 **"API Key not found" error?**
+
 - Make sure you copied the entire key
 - Check there are no extra spaces
 - Verify the key starts with `AIzaSy`
 
 **Still not working?**
+
 - Try creating a new API key
 - Make sure you saved the .env file
 - Restart your terminal/command prompt

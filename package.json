@@ -5,7 +5,8 @@
   "description": "SilentSiren AI - Emergency Response Platform with Multimodal AI",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "apps/backend/packages/*"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",

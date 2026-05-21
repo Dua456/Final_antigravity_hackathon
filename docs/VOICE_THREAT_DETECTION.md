@@ -7,6 +7,7 @@ The Voice Threat Detection System uses Google Gemini AI to analyze voice recordi
 ## Features
 
 ### 🎤 Voice Analysis
+
 - Real-time voice recording and analysis using Gemini AI
 - Threat detection with confidence scoring
 - Emergency type classification (assault, medical, fire, etc.)
@@ -35,6 +36,7 @@ The Voice Threat Detection System uses Google Gemini AI to analyze voice recordi
 ## API Endpoints
 
 ### Voice Analysis
+
 ```
 POST /api/voice-threat/analyze
 Authorization: Bearer <token>
@@ -58,6 +60,7 @@ Response:
 ```
 
 ### Trigger Emergency
+
 ```
 POST /api/voice-threat/emergency/trigger
 Authorization: Bearer <token>
@@ -82,6 +85,7 @@ Response:
 ```
 
 ### Confirm Safety
+
 ```
 POST /api/voice-threat/emergency/confirm-safe
 Authorization: Bearer <token>
@@ -100,6 +104,7 @@ Response:
 ```
 
 ### Check Status
+
 ```
 GET /api/voice-threat/emergency/status/:alertId
 Authorization: Bearer <token>
@@ -116,6 +121,7 @@ Response:
 ```
 
 ### Manage Emergency Contacts
+
 ```
 GET /api/voice-threat/emergency/contacts
 POST /api/voice-threat/emergency/contacts
@@ -127,6 +133,7 @@ Authorization: Bearer <token>
 ## Frontend Components
 
 ### EmergencyAlert Component
+
 ```tsx
 import { EmergencyAlert } from '@/components/EmergencyAlert';
 
@@ -138,10 +145,11 @@ import { EmergencyAlert } from '@/components/EmergencyAlert';
   expiresAt={new Date()}
   onConfirmSafe={() => handleSafe()}
   onCancel={() => handleCancel()}
-/>
+/>;
 ```
 
 ### useVoiceThreatDetection Hook
+
 ```tsx
 import { useVoiceThreatDetection } from '@/hooks/useVoiceThreatDetection';
 
@@ -155,27 +163,32 @@ const {
   stopRecording,
   confirmSafe,
   cancelAlert,
-  triggerManualEmergency
+  triggerManualEmergency,
 } = useVoiceThreatDetection();
 ```
 
 ## Database Schema
 
 ### voice_threat_sessions
+
 Stores voice analysis results from Gemini AI.
 
 ### emergency_alerts
+
 Tracks emergency alerts with countdown timers.
 
 ### alert_notifications
+
 Logs all notifications sent to emergency contacts.
 
 ### safety_confirmations
+
 Records user safety confirmations.
 
 ## Configuration
 
 ### Environment Variables
+
 ```env
 # Gemini AI
 GEMINI_API_KEY=your-gemini-api-key
@@ -192,7 +205,9 @@ EMERGENCY_POLICE_NUMBER=911
 ```
 
 ### Gemini AI Configuration
+
 The system uses Gemini 1.5 Pro with the following settings:
+
 - Temperature: 0.3 (for consistent threat detection)
 - Max tokens: 2000
 - Safety settings: Block only high-risk content
@@ -200,6 +215,7 @@ The system uses Gemini 1.5 Pro with the following settings:
 ## Testing
 
 Run the test suite:
+
 ```bash
 # Set your test token
 export TEST_TOKEN=your-jwt-token
@@ -209,6 +225,7 @@ node test-voice-threat-system.js
 ```
 
 Test scenarios:
+
 1. Voice threat analysis
 2. Emergency trigger with countdown
 3. Safety confirmation
@@ -242,6 +259,7 @@ Test scenarios:
 ## Notification Messages
 
 ### WhatsApp Emergency Alert
+
 ```
 🚨 EMERGENCY ALERT 🚨
 
@@ -258,6 +276,7 @@ This is an automated emergency alert from SilentSiren.
 ```
 
 ### Safety Confirmation Message
+
 ```
 ✅ SAFETY CONFIRMED
 
@@ -271,16 +290,19 @@ Time: 2024-01-01 12:01:30
 ## Troubleshooting
 
 ### Gemini API Errors
+
 - Check API key is valid
 - Verify API quota not exceeded
 - Check audio format is supported
 
 ### WhatsApp Not Sending
+
 - Verify Twilio credentials
 - Check WhatsApp sandbox approval
 - Verify phone numbers are E.164 format
 
 ### GPS Not Working
+
 - Check browser location permissions
 - Verify HTTPS connection
 - Check location services enabled
@@ -298,6 +320,7 @@ Time: 2024-01-01 12:01:30
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: [repository-url]
 - Email: support@silentsiren.com
 - Documentation: [docs-url]

@@ -6,12 +6,12 @@ Your app now supports **multiple emergency contacts** with **threat-level-based 
 
 ### Threat Level Logic:
 
-| Threat Level | SMS | WhatsApp | Voice Call | Who Gets Alerted |
-|-------------|-----|----------|------------|------------------|
-| **LOW**     | ✅  | ❌       | ❌         | Primary contacts only (priority 1) |
-| **MEDIUM**  | ✅  | ❌       | ❌         | Primary contacts only (priority 1) |
-| **HIGH**    | ✅  | ✅       | ❌         | All contacts |
-| **CRITICAL**| ✅  | ✅       | ✅         | All contacts |
+| Threat Level | SMS | WhatsApp | Voice Call | Who Gets Alerted                   |
+| ------------ | --- | -------- | ---------- | ---------------------------------- |
+| **LOW**      | ✅  | ❌       | ❌         | Primary contacts only (priority 1) |
+| **MEDIUM**   | ✅  | ❌       | ❌         | Primary contacts only (priority 1) |
+| **HIGH**     | ✅  | ✅       | ❌         | All contacts                       |
+| **CRITICAL** | ✅  | ✅       | ✅         | All contacts                       |
 
 ---
 
@@ -46,6 +46,7 @@ curl -X GET http://localhost:3001/api/contacts/emergency -H "Authorization: Bear
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -88,6 +89,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: appli
 ```
 
 **What happens:**
+
 - ✅ SMS sent to Mother (+923343717260) only
 - ❌ No WhatsApp
 - ❌ No voice call
@@ -102,6 +104,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: appli
 ```
 
 **What happens:**
+
 - ✅ SMS sent to Mother (+923343717260) only
 - ❌ No WhatsApp
 - ❌ No voice call
@@ -116,6 +119,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: appli
 ```
 
 **What happens:**
+
 - ✅ SMS sent to ALL contacts (Mother, Father, Friend)
 - ✅ WhatsApp sent to ALL contacts
 - ❌ No voice call yet
@@ -130,6 +134,7 @@ curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: appli
 ```
 
 **What happens:**
+
 - ✅ SMS sent to ALL contacts
 - ✅ WhatsApp sent to ALL contacts
 - ✅ Voice call made to ALL contacts
@@ -140,21 +145,25 @@ curl -X POST http://localhost:3001/api/emergency/trigger -H "Content-Type: appli
 ## 📱 Contact Management API
 
 ### Get All Contacts
+
 ```powershell
 curl -X GET http://localhost:3001/api/contacts/emergency -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
 ### Get Specific Contact
+
 ```powershell
 curl -X GET http://localhost:3001/api/contacts/emergency/CONTACT_ID -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
 ### Update Contact
+
 ```powershell
 curl -X PUT http://localhost:3001/api/contacts/emergency/CONTACT_ID -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_JWT_TOKEN" -d "{\"name\": \"Updated Name\", \"priority\": 2}"
 ```
 
 ### Delete Contact
+
 ```powershell
 curl -X DELETE http://localhost:3001/api/contacts/emergency/CONTACT_ID -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
@@ -167,13 +176,14 @@ Each contact can have individual notification preferences:
 
 ```json
 {
-  "notifySms": true,      // Receive SMS alerts
-  "notifyCall": true,     // Receive voice calls
-  "notifyWhatsapp": true  // Receive WhatsApp messages
+  "notifySms": true, // Receive SMS alerts
+  "notifyCall": true, // Receive voice calls
+  "notifyWhatsapp": true // Receive WhatsApp messages
 }
 ```
 
 **Example:** Friend who only wants WhatsApp (no calls):
+
 ```powershell
 curl -X POST http://localhost:3001/api/contacts/emergency -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_JWT_TOKEN" -d "{\"name\": \"Friend\", \"phoneNumber\": \"+923002222222\", \"relationship\": \"Friend\", \"priority\": 3, \"notifySms\": false, \"notifyCall\": false, \"notifyWhatsapp\": true}"
 ```
@@ -237,6 +247,7 @@ CREATE TABLE emergency_contacts (
 4. Verify via SMS code
 
 **Numbers to verify:**
+
 - +923343717260 (Mother)
 - +923001111111 (Father)
 - +923002222222 (Friend)
@@ -266,21 +277,25 @@ CREATE TABLE emergency_contacts (
 ## 🎉 What You Have Now
 
 ✅ **Multi-Contact System:**
+
 - Add unlimited emergency contacts
 - Set priority levels
 - Individual notification preferences
 
 ✅ **Threat-Based Alerts:**
+
 - LOW/MEDIUM: SMS to primary only
 - HIGH: SMS + WhatsApp to all
 - CRITICAL: SMS + WhatsApp + Voice to all
 
 ✅ **Smart Routing:**
+
 - Respects contact preferences
 - Filters by priority
 - Handles Twilio errors gracefully
 
 ✅ **Complete API:**
+
 - CRUD operations for contacts
 - Threat-level analysis
 - Multi-channel delivery

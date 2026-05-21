@@ -85,7 +85,10 @@ export function EmergencyCountdown({
           {/* Animated background effects */}
           <div className="absolute inset-0 opacity-30 pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-red-500 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-orange-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div
+              className="absolute bottom-1/4 right-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-orange-500 rounded-full blur-3xl animate-pulse"
+              style={{ animationDelay: '1s' }}
+            ></div>
           </div>
 
           <motion.div
@@ -119,11 +122,17 @@ export function EmergencyCountdown({
                 </svg>
               </motion.div>
 
-              <h1 id="emergency-title" className="text-3xl sm:text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-red-400 drop-shadow-2xl">
+              <h1
+                id="emergency-title"
+                className="text-3xl sm:text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-red-400 drop-shadow-2xl"
+              >
                 EMERGENCY DETECTED
               </h1>
 
-              <p id="emergency-description" className="text-lg sm:text-2xl md:text-3xl text-red-200 font-bold">
+              <p
+                id="emergency-description"
+                className="text-lg sm:text-2xl md:text-3xl text-red-200 font-bold"
+              >
                 Dispatching alerts in
               </p>
             </div>
@@ -140,13 +149,19 @@ export function EmergencyCountdown({
             <div className="space-y-4 sm:space-y-6">
               <div className="flex items-center justify-center gap-3 sm:gap-6 text-white">
                 <div className="text-center bg-red-950/50 backdrop-blur-sm px-3 sm:px-6 py-2 sm:py-4 rounded-xl sm:rounded-2xl border-2 border-red-500/30">
-                  <div className="text-xs sm:text-sm text-red-300 mb-1 font-semibold uppercase tracking-wider">Threat Level</div>
+                  <div className="text-xs sm:text-sm text-red-300 mb-1 font-semibold uppercase tracking-wider">
+                    Threat Level
+                  </div>
                   <div className="text-xl sm:text-3xl font-black text-red-400">{threatLevel}</div>
                 </div>
                 <div className="w-px h-10 sm:h-16 bg-red-500/30" />
                 <div className="text-center bg-red-950/50 backdrop-blur-sm px-3 sm:px-6 py-2 sm:py-4 rounded-xl sm:rounded-2xl border-2 border-red-500/30">
-                  <div className="text-xs sm:text-sm text-red-300 mb-1 font-semibold uppercase tracking-wider">Confidence</div>
-                  <div className="text-xl sm:text-3xl font-black text-red-400">{(confidence * 100).toFixed(0)}%</div>
+                  <div className="text-xs sm:text-sm text-red-300 mb-1 font-semibold uppercase tracking-wider">
+                    Confidence
+                  </div>
+                  <div className="text-xl sm:text-3xl font-black text-red-400">
+                    {(confidence * 100).toFixed(0)}%
+                  </div>
                 </div>
               </div>
 
@@ -163,7 +178,8 @@ export function EmergencyCountdown({
 
               <div className="bg-red-950/30 backdrop-blur-sm border border-red-500/30 rounded-xl sm:rounded-2xl p-3 sm:p-4 max-w-2xl mx-auto">
                 <p className="text-xs sm:text-sm text-red-200 font-semibold">
-                  🔒 Biometric verification required to cancel • SMS, WhatsApp & Voice calls will be sent
+                  🔒 Biometric verification required to cancel • SMS, WhatsApp & Voice calls will be
+                  sent
                 </p>
               </div>
             </div>

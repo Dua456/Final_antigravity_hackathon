@@ -5,9 +5,11 @@
 ### 1. Backend Services
 
 #### Voice Threat Detection Service
+
 **File:** `apps/backend/src/services/voiceThreatDetection.service.ts`
 
 Features:
+
 - ✅ Gemini AI voice analysis
 - ✅ Threat detection with confidence scoring
 - ✅ Emergency type classification (assault, medical, fire, etc.)
@@ -20,9 +22,11 @@ Features:
 - ✅ Emergency contacts management
 
 #### API Routes
+
 **File:** `apps/backend/src/routes/voiceThreat.ts`
 
 Endpoints:
+
 - ✅ `POST /api/voice-threat/analyze` - Analyze voice for threats
 - ✅ `POST /api/voice-threat/emergency/trigger` - Trigger emergency alert
 - ✅ `POST /api/voice-threat/emergency/confirm-safe` - User confirms safety
@@ -35,9 +39,11 @@ Endpoints:
 ### 2. Frontend Components
 
 #### EmergencyAlert Component
+
 **File:** `apps/frontend/src/components/EmergencyAlert.tsx`
 
 Features:
+
 - ✅ Countdown timer display (2 minutes)
 - ✅ Loud siren sound effect
 - ✅ "I am safe" button (cancels alert)
@@ -48,9 +54,11 @@ Features:
 - ✅ Animated countdown
 
 #### Voice Threat Detection Hook
+
 **File:** `apps/frontend/src/hooks/useVoiceThreatDetection.ts`
 
 Features:
+
 - ✅ Voice recording with MediaRecorder API
 - ✅ Real-time threat analysis
 - ✅ Emergency alert management
@@ -61,9 +69,11 @@ Features:
 - ✅ Error handling
 
 #### Example Page
+
 **File:** `apps/frontend/src/app/emergency/voice-threat/page.tsx`
 
 Features:
+
 - ✅ Complete UI implementation
 - ✅ Voice recording controls
 - ✅ Emergency alert display
@@ -74,9 +84,11 @@ Features:
 ### 3. Database Schema
 
 #### Migration File
+
 **File:** `apps/backend/src/db/migrations/004_add_voice_threat_detection.sql`
 
 Tables Created:
+
 - ✅ `voice_threat_sessions` - Stores Gemini AI analysis results
 - ✅ `emergency_alerts` - Tracks alerts with countdown timers
 - ✅ `alert_notifications` - Logs all notifications sent
@@ -170,17 +182,20 @@ Navigate to: `http://localhost:3000/emergency/voice-threat`
 ## 📱 User Actions
 
 ### "I am safe" Button
+
 - Cancels the emergency alert
 - Stops the countdown timer
 - Sends "I am safe" message to all emergency contacts
 - Logs safety confirmation in database
 
 ### Cancel Button
+
 - Stops countdown before activation
 - No notifications sent
 - Alert marked as cancelled
 
 ### Manual Emergency Trigger
+
 - User can manually trigger emergency without voice analysis
 - Useful for silent emergencies
 - Same 2-minute countdown applies
@@ -188,6 +203,7 @@ Navigate to: `http://localhost:3000/emergency/voice-threat`
 ## 🧪 Testing
 
 ### Test Voice Analysis
+
 ```bash
 curl -X POST http://localhost:3001/api/voice-threat/analyze \
   -H "Authorization: Bearer $TOKEN" \
@@ -195,6 +211,7 @@ curl -X POST http://localhost:3001/api/voice-threat/analyze \
 ```
 
 ### Test Emergency Trigger
+
 ```bash
 curl -X POST http://localhost:3001/api/voice-threat/emergency/trigger \
   -H "Authorization: Bearer $TOKEN" \
@@ -206,6 +223,7 @@ curl -X POST http://localhost:3001/api/voice-threat/emergency/trigger \
 ```
 
 ### Test Safety Confirmation
+
 ```bash
 curl -X POST http://localhost:3001/api/voice-threat/emergency/confirm-safe \
   -H "Authorization: Bearer $TOKEN" \
@@ -264,9 +282,11 @@ function MyComponent() {
 ## 📊 Database Tables
 
 ### voice_threat_sessions
+
 Stores voice analysis results from Gemini AI.
 
 **Key Fields:**
+
 - `transcript` - Voice-to-text transcription
 - `threat_detected` - Boolean flag
 - `threat_level` - LOW, MEDIUM, HIGH, CRITICAL
@@ -275,9 +295,11 @@ Stores voice analysis results from Gemini AI.
 - `ai_reasoning` - Gemini's explanation
 
 ### emergency_alerts
+
 Tracks emergency alerts with countdown timers.
 
 **Key Fields:**
+
 - `status` - COUNTDOWN, ACTIVE, CANCELLED, RESOLVED
 - `countdown_expires_at` - When countdown ends
 - `user_confirmed_safe` - "I am safe" clicked
@@ -286,17 +308,21 @@ Tracks emergency alerts with countdown timers.
 - `gps_shared` - Location shared
 
 ### alert_notifications
+
 Logs all notifications sent to emergency contacts.
 
 **Key Fields:**
+
 - `notification_type` - SMS, WHATSAPP, CALL, PUSH
 - `status` - PENDING, SENT, DELIVERED, FAILED
 - `provider_message_id` - Twilio message ID
 
 ### safety_confirmations
+
 Records user safety confirmations.
 
 **Key Fields:**
+
 - `confirmation_type` - SAFE, NEED_HELP, FALSE_ALARM
 - `message` - Optional user message
 - `latitude/longitude` - User location when confirmed
@@ -314,6 +340,7 @@ Records user safety confirmations.
 ## 📝 Next Steps
 
 1. **Run Database Migration**
+
    ```bash
    psql $DATABASE_URL -f apps/backend/src/db/migrations/004_add_voice_threat_detection.sql
    ```
@@ -328,6 +355,7 @@ Records user safety confirmations.
    - Add phone number to `.env`
 
 4. **Test the System**
+
    ```bash
    node test-voice-threat-system.js
    ```
@@ -368,6 +396,7 @@ Records user safety confirmations.
 The voice threat detection system is now complete and ready to use. Follow the setup steps above to get started.
 
 For questions or issues, refer to:
+
 - `VOICE_THREAT_DETECTION.md` - Full documentation
 - `SETUP_VOICE_THREAT.md` - Setup guide
 - Test script: `node test-voice-threat-system.js`

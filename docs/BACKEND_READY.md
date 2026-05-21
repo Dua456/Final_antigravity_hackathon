@@ -23,6 +23,7 @@ npm run dev
 ## Expected Output:
 
 ### ✅ SUCCESS (Without Firebase configured):
+
 ```
 [INFO] Database pool initialized
 [INFO] Database connected successfully
@@ -33,6 +34,7 @@ npm run dev
 ```
 
 ### ✅ SUCCESS (With Firebase configured):
+
 ```
 [INFO] Database pool initialized
 [INFO] Database connected successfully
@@ -47,6 +49,7 @@ npm run dev
 ## What Works Now:
 
 ### ✅ Working (Without Firebase):
+
 - User authentication (register/login)
 - Emergency event creation
 - Database operations
@@ -56,6 +59,7 @@ npm run dev
 - All API endpoints except FCM
 
 ### 🔔 Requires Firebase Setup:
+
 - Push notifications
 - FCM token management
 - `/api/fcm/*` endpoints
@@ -65,6 +69,7 @@ npm run dev
 ## Next Steps:
 
 ### Option 1: Test Backend Now (Recommended)
+
 ```bash
 # Start backend
 npm run dev
@@ -79,11 +84,13 @@ curl -X POST http://localhost:3001/api/auth/register \
 ```
 
 ### Option 2: Setup Firebase Later
+
 - Backend works fine without Firebase
 - Push notifications will be disabled
 - You can add Firebase anytime by following `FCM_QUICK_REFERENCE.md`
 
 ### Option 3: Setup Firebase Now (30 min)
+
 - Follow the guide in `FCM_QUICK_REFERENCE.md`
 - Enable push notifications
 - Full feature set
@@ -93,6 +100,7 @@ curl -X POST http://localhost:3001/api/auth/register \
 ## Troubleshooting:
 
 ### If port 3001 is already in use:
+
 ```bash
 # Find what's using port 3001
 netstat -ano | findstr :3001
@@ -105,11 +113,13 @@ PORT=3002
 ```
 
 ### If database connection fails:
+
 - Make sure you've set up Neon database
 - Check `DATABASE_URL` in .env
 - See `NEON_SETUP_QUICKSTART.md`
 
 ### If Redis connection fails:
+
 - Redis is optional for development
 - Backend will continue with a warning
 - Install Redis if needed: https://redis.io/download

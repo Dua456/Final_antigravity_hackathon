@@ -53,10 +53,9 @@ export const securityMiddleware = [
     // Expect-CT header for certificate transparency
     res.setHeader('Expect-CT', 'max-age=86400, enforce');
 
-    // Cross-Origin policies
-    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-    res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
+    // Cross-Origin policies - relaxed for API access from different origins
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
 
     // Remove sensitive headers
     res.removeHeader('X-Powered-By');

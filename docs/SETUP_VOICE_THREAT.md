@@ -40,11 +40,13 @@ EMERGENCY_COUNTDOWN_SECONDS=120
 ### 3. Get API Keys
 
 #### Gemini API Key
+
 1. Go to https://makersuite.google.com/app/apikey
 2. Create a new API key
 3. Copy and paste into `.env`
 
 #### Twilio WhatsApp (if not already configured)
+
 1. Go to https://console.twilio.com/
 2. Get your Account SID and Auth Token
 3. Set up WhatsApp sandbox: https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn
@@ -85,14 +87,8 @@ import { useVoiceThreatDetection } from '@/hooks/useVoiceThreatDetection';
 import { EmergencyAlert } from '@/components/EmergencyAlert';
 
 function MyComponent() {
-  const {
-    isRecording,
-    threatDetected,
-    alertActive,
-    startRecording,
-    stopRecording,
-    confirmSafe,
-  } = useVoiceThreatDetection();
+  const { isRecording, threatDetected, alertActive, startRecording, stopRecording, confirmSafe } =
+    useVoiceThreatDetection();
 
   return (
     <div>
@@ -125,9 +121,9 @@ formData.append('audio', audioBlob);
 const response = await fetch('/api/voice-threat/analyze', {
   method: 'POST',
   headers: {
-    'Authorization': `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   },
-  body: formData
+  body: formData,
 });
 
 const { sessionId, isThreat, threatLevel } = await response.json();
@@ -137,17 +133,17 @@ if (isThreat) {
   const alertResponse = await fetch('/api/voice-threat/emergency/trigger', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       sessionId,
       location: {
         latitude: 40.7128,
-        longitude: -74.0060,
-        accuracy: 10
-      }
-    })
+        longitude: -74.006,
+        accuracy: 10,
+      },
+    }),
   });
 
   const { alertId, countdownStarted } = await alertResponse.json();
@@ -157,10 +153,10 @@ if (isThreat) {
 await fetch('/api/voice-threat/emergency/confirm-safe', {
   method: 'POST',
   headers: {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
   },
-  body: JSON.stringify({ alertId })
+  body: JSON.stringify({ alertId }),
 });
 ```
 
@@ -193,27 +189,32 @@ User speaks → Record audio → Send to Gemini AI
 ## Troubleshooting
 
 ### "Gemini API key not configured"
+
 - Check `.env` file has `GEMINI_API_KEY`
 - Restart backend server after adding key
 - Verify key is valid at https://makersuite.google.com/
 
 ### "WhatsApp messages not sending"
+
 - Verify Twilio credentials in `.env`
 - Check WhatsApp sandbox is approved
 - Test with Twilio console first
 - Ensure phone numbers are in E.164 format (+1234567890)
 
 ### "Database tables not found"
+
 - Run migration: `psql $DATABASE_URL -f apps/backend/src/db/migrations/004_add_voice_threat_detection.sql`
 - Check connection: `psql $DATABASE_URL -c "\dt"`
 - Verify DATABASE_URL is correct
 
 ### "Audio recording not working"
+
 - Check browser permissions (microphone access)
 - Use HTTPS (required for getUserMedia)
 - Test in Chrome/Firefox (best support)
 
 ### "GPS location not available"
+
 - Enable location services in browser
 - Grant location permission when prompted
 - Use HTTPS connection
@@ -222,6 +223,7 @@ User speaks → Record audio → Send to Gemini AI
 ## Testing Scenarios
 
 ### 1. Test Voice Analysis
+
 ```bash
 curl -X POST http://localhost:3001/api/voice-threat/analyze \
   -H "Authorization: Bearer $TOKEN" \
@@ -229,6 +231,7 @@ curl -X POST http://localhost:3001/api/voice-threat/analyze \
 ```
 
 ### 2. Test Emergency Trigger
+
 ```bash
 curl -X POST http://localhost:3001/api/voice-threat/emergency/trigger \
   -H "Authorization: Bearer $TOKEN" \
@@ -244,6 +247,7 @@ curl -X POST http://localhost:3001/api/voice-threat/emergency/trigger \
 ```
 
 ### 3. Test Safety Confirmation
+
 ```bash
 curl -X POST http://localhost:3001/api/voice-threat/emergency/confirm-safe \
   -H "Authorization: Bearer $TOKEN" \
@@ -275,6 +279,7 @@ curl -X POST http://localhost:3001/api/voice-threat/emergency/confirm-safe \
 ## Support
 
 For issues:
+
 1. Check logs: `tail -f apps/backend/logs/app.log`
 2. Test API: `node test-voice-threat-system.js`
 3. Review documentation: `VOICE_THREAT_DETECTION.md`

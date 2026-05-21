@@ -1,9 +1,11 @@
 # Firebase Cloud Messaging (FCM) Integration Guide
 
 ## Overview
+
 This guide will help you integrate Firebase Cloud Messaging into SilentSiren AI for real-time emergency push notifications.
 
 ## Prerequisites
+
 - Firebase account (free tier)
 - Existing SilentSiren backend running
 - Neon PostgreSQL database connected
@@ -77,12 +79,14 @@ NEXT_PUBLIC_FIREBASE_VAPID_KEY=BYour-VAPID-Key-Here
 ## Part 3: Install Dependencies
 
 ### Backend
+
 ```bash
 cd apps/backend
 npm install firebase-admin
 ```
 
 ### Frontend
+
 ```bash
 cd apps/frontend
 npm install firebase
@@ -93,12 +97,14 @@ npm install firebase
 ## Part 4: Testing
 
 ### Test 1: Generate Device Token
+
 1. Open your web app in browser
 2. Open DevTools Console
 3. Click "Allow" when prompted for notifications
 4. Check console for token (starts with `e...` or `f...`)
 
 ### Test 2: Save Token to Database
+
 ```bash
 curl -X POST http://localhost:3001/api/fcm/save-token \
   -H "Content-Type: application/json" \
@@ -109,6 +115,7 @@ curl -X POST http://localhost:3001/api/fcm/save-token \
 ```
 
 ### Test 3: Send Test Notification
+
 ```bash
 curl -X POST http://localhost:3001/api/fcm/send-test \
   -H "Content-Type: application/json" \
@@ -116,6 +123,7 @@ curl -X POST http://localhost:3001/api/fcm/send-test \
 ```
 
 ### Test 4: Trigger Emergency Alert
+
 ```bash
 curl -X POST http://localhost:3001/api/emergency/trigger \
   -H "Content-Type: application/json" \
@@ -135,32 +143,38 @@ You should receive a push notification!
 ## Part 5: Verify Notifications
 
 ### In Browser (Chrome/Edge)
+
 1. Notification should appear in top-right corner
 2. Click notification to open app
 3. Check DevTools > Application > Service Workers
 
 ### In Browser (Firefox)
+
 1. Notification appears in system notification area
 2. Check about:serviceworkers for status
 
 ### Troubleshooting
 
 **"Notification permission denied"**
+
 - Clear site data and reload
 - Check browser settings > Notifications
 - Ensure HTTPS (or localhost)
 
 **"Service worker registration failed"**
+
 - Check console for errors
 - Ensure firebase-messaging-sw.js is in /public
 - Verify VAPID key is correct
 
 **"Token not generated"**
+
 - Check Firebase config is correct
 - Ensure notification permission granted
 - Check browser supports notifications
 
 **"Notification not received"**
+
 - Verify token is saved in database
 - Check backend logs for errors
 - Ensure Firebase service account key is valid
@@ -171,6 +185,7 @@ You should receive a push notification!
 ## Part 6: Production Deployment
 
 ### Security Checklist
+
 - ✅ Never commit service account JSON to Git
 - ✅ Use environment variables for all secrets
 - ✅ Validate tokens before saving
@@ -179,12 +194,14 @@ You should receive a push notification!
 - ✅ Handle expired/invalid tokens
 
 ### Performance Tips
+
 - Cache Firebase Admin SDK instance
 - Batch notifications when possible
 - Clean up expired tokens regularly
 - Use database indexes on user_id
 
 ### Monitoring
+
 - Log all notification sends
 - Track delivery success/failure
 - Monitor FCM quota usage
@@ -195,6 +212,7 @@ You should receive a push notification!
 ## Free Tier Limits
 
 Firebase Cloud Messaging (FCM) is **completely free** with no limits on:
+
 - Number of messages
 - Number of devices
 - Number of topics

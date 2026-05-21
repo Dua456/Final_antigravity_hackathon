@@ -3,6 +3,7 @@
 ## Overview
 
 This system syncs Firebase Authentication users with Neon PostgreSQL database, allowing you to:
+
 - Store Firebase users in Neon database
 - Add emergency contacts linked to Firebase users
 - Query user data from Neon instead of Firebase
@@ -27,6 +28,7 @@ psql $DATABASE_URL
 ```
 
 **What This Does:**
+
 - Adds `firebase_uid` column to `users` table
 - Adds `carrier` column to `emergency_contacts` table
 - Makes `phone_number` optional in `users` table
@@ -149,15 +151,15 @@ if (user) {
   const response = await fetch('/api/emergency-contacts/add', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${idToken}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${idToken}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       name: 'John Doe',
       phoneNumber: '923001234567',
       relationship: 'Family',
-      carrier: 'jazz'
-    })
+      carrier: 'jazz',
+    }),
   });
 }
 ```
@@ -188,6 +190,7 @@ node sync-firebase-users.js
 ```
 
 **Script:**
+
 ```javascript
 const { firebaseNeonSyncService } = require('./services/firebaseNeonSync.service');
 
@@ -285,12 +288,14 @@ SELECT id, user_id, name, phone_number, carrier FROM emergency_contacts;
 ## ✅ Benefits
 
 ### Before (Firebase Only):
+
 - ❌ User data only in Firebase
 - ❌ Can't query users with SQL
 - ❌ Can't join with emergency contacts
 - ❌ Limited reporting capabilities
 
 ### After (Firebase + Neon):
+
 - ✅ User data in both Firebase & Neon
 - ✅ Full SQL query capabilities
 - ✅ Easy joins with contacts/events
@@ -304,6 +309,7 @@ SELECT id, user_id, name, phone_number, carrier FROM emergency_contacts;
 ### Issue: "User not found in Neon"
 
 **Solution:**
+
 ```javascript
 // Manually sync user
 const { userId } = await firebaseNeonSyncService.verifyAndSyncUser(idToken);
@@ -346,6 +352,7 @@ This is normal - user already synced. The system will update existing user.
 ## 📞 Support
 
 For issues:
+
 1. Check backend logs
 2. Verify Firebase token is valid
 3. Check Neon database connection

@@ -3,6 +3,7 @@
 ## ⚠️ 401 Error Still Coming? Follow These Steps!
 
 ### Problem:
+
 Backend purani compiled code use kar raha hai. Naya code load nahi hua.
 
 ---
@@ -10,6 +11,7 @@ Backend purani compiled code use kar raha hai. Naya code load nahi hua.
 ## 🚀 SOLUTION: Complete Backend Restart
 
 ### Step 1: Stop Backend Completely
+
 ```bash
 # Backend terminal mein:
 # Press Ctrl+C (ek ya do baar)
@@ -17,6 +19,7 @@ Backend purani compiled code use kar raha hai. Naya code load nahi hua.
 ```
 
 ### Step 2: Clean Build Cache (Important!)
+
 ```bash
 cd C:\Users\FC\Documents\hackathon-main\apps\backend
 
@@ -29,23 +32,27 @@ rm -rf node_modules/.cache
 ```
 
 ### Step 3: Rebuild TypeScript
+
 ```bash
 # Still in backend directory
 npm run build
 ```
 
 **Expected Output:**
+
 ```
 ✓ Compiled successfully
 ✓ No errors
 ```
 
 ### Step 4: Start Backend Fresh
+
 ```bash
 npm run dev
 ```
 
 **Expected Output:**
+
 ```
 ✅ Server running on port 3001
 ✅ Database connected
@@ -57,6 +64,7 @@ npm run dev
 ## 🧪 Test Immediately
 
 ### Open Browser Console (F12)
+
 ```
 1. Go to: http://localhost:3000/contacts
 2. Open DevTools (F12)
@@ -65,7 +73,9 @@ npm run dev
 ```
 
 ### Check Backend Terminal
+
 **Should see:**
+
 ```
 ⚠️ No auth token provided, using test user ID: test-user-001
 📋 Fetching emergency contacts
@@ -73,12 +83,15 @@ npm run dev
 ```
 
 ### Check Browser Console
+
 **Should NOT see:**
+
 ```
 ❌ 401 Unauthorized  (This should be gone!)
 ```
 
 **Should see:**
+
 ```
 ✅ No errors
 ✅ Page loads successfully
@@ -112,11 +125,13 @@ npm run dev
 ### Option B: Check Backend Logs
 
 **Backend terminal should show:**
+
 ```
 ⚠️ No auth token provided, using test user ID: test-user-001
 ```
 
 **If you see:**
+
 ```
 ❌ Authentication required
 ```
@@ -128,16 +143,19 @@ npm run dev
 ## 🎯 Verification Checklist
 
 ### Backend Terminal Shows:
+
 - ✅ `Server running on port 3001`
 - ✅ `⚠️ No auth token provided, using test user ID: test-user-001`
 - ✅ `📋 Fetching emergency contacts`
 
 ### Browser Console Shows:
+
 - ✅ No 401 errors
 - ✅ Contacts page loads
 - ✅ Can add contacts
 
 ### Backend Files Exist:
+
 - ✅ `src/middleware/optionalAuth.ts` exists
 - ✅ `src/routes/emergencyContactsSimple.ts` updated
 - ✅ `dist/` folder has new compiled code
@@ -147,6 +165,7 @@ npm run dev
 ## 📝 Quick Commands (Copy-Paste)
 
 ### Windows PowerShell:
+
 ```powershell
 # Stop backend (Ctrl+C first)
 cd C:\Users\FC\Documents\hackathon-main\apps\backend
@@ -156,6 +175,7 @@ npm run dev
 ```
 
 ### Git Bash / WSL:
+
 ```bash
 # Stop backend (Ctrl+C first)
 cd /c/Users/FC/Documents/hackathon-main/apps/backend
@@ -169,16 +189,19 @@ npm run dev
 ## 🚨 IMPORTANT NOTES
 
 ### 1. Must Stop Backend First
+
 - Ctrl+C press karo
 - Wait for "Server stopped" message
 - Then proceed
 
 ### 2. Must Rebuild TypeScript
+
 - `npm run build` zaroori hai
 - New code compile hoga
 - dist/ folder update hoga
 
 ### 3. Check Port 3001
+
 - Make sure koi aur process port 3001 use nahi kar raha
 - If needed: `netstat -ano | findstr :3001`
 
@@ -187,6 +210,7 @@ npm run dev
 ## ✅ Success Indicators
 
 ### When Backend Starts:
+
 ```
 [INFO] Server running on port 3001
 [INFO] Database connected
@@ -194,6 +218,7 @@ npm run dev
 ```
 
 ### When You Open Contacts Page:
+
 ```
 Backend logs:
 ⚠️ No auth token provided, using test user ID: test-user-001
@@ -210,12 +235,14 @@ Browser console:
 ## 🎉 After Successful Restart
 
 ### Test 1: Load Contacts
+
 ```
 http://localhost:3000/contacts
 ✅ Page loads without 401 error
 ```
 
 ### Test 2: Add Contact
+
 ```
 1. Click "Add Emergency Contact"
 2. Fill form
@@ -224,10 +251,12 @@ http://localhost:3000/contacts
 ```
 
 ### Test 3: View in Database
+
 ```sql
 SELECT * FROM emergency_contacts
 WHERE user_id = 'test-user-001';
 ```
+
 ✅ Contact visible in Neon database
 
 ---
@@ -237,18 +266,21 @@ WHERE user_id = 'test-user-001';
 ### Still Getting 401?
 
 **Check 1: Backend actually restarted?**
+
 ```bash
 # Look for this in backend terminal:
 ⚠️ No auth token provided, using test user ID: test-user-001
 ```
 
 **Check 2: Correct port?**
+
 ```bash
 # Backend should be on 3001
 # Frontend should be on 3000
 ```
 
 **Check 3: Old process running?**
+
 ```bash
 # Windows:
 netstat -ano | findstr :3001
@@ -258,6 +290,7 @@ taskkill /PID <process_id> /F
 ```
 
 **Check 4: TypeScript compiled?**
+
 ```bash
 # Check if dist folder has new files
 ls -la dist/middleware/
@@ -269,6 +302,7 @@ ls -la dist/middleware/
 ## 📞 Quick Fix Commands
 
 ### Complete Reset (If Nothing Works):
+
 ```bash
 # Stop everything
 # Ctrl+C in both terminals

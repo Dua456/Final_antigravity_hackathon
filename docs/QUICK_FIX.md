@@ -30,6 +30,7 @@ If you want to run the backend without setting up Firebase yet:
 The port is set correctly in `.env` as `PORT=3001`. If it's changing, it might be:
 
 1. **Another process using port 3001**
+
    ```bash
    # Check what's using port 3001
    netstat -ano | findstr :3001
@@ -53,6 +54,7 @@ npm run dev
 ```
 
 **Expected output:**
+
 ```
 ✅ Database connected successfully
 ✅ Redis connected successfully
@@ -67,12 +69,15 @@ The server should start on port 3001 even without Firebase configured.
 ## What to Do Next:
 
 ### Option A: Run Without Firebase (Quick)
+
 Just start the backend - it will work without FCM:
+
 ```bash
 npm run dev
 ```
 
 ### Option B: Setup Firebase (30 min)
+
 Follow the guide in `FCM_QUICK_REFERENCE.md` to enable push notifications.
 
 ---

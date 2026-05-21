@@ -38,6 +38,7 @@ npm run dev
 ```
 
 The server will:
+
 1. Connect to your Neon database
 2. Create all necessary tables (users, emergency_events, etc.)
 3. Set up indexes and triggers
@@ -51,6 +52,7 @@ curl http://localhost:3001/api/health/detailed
 ```
 
 You should see:
+
 ```json
 {
   "status": "healthy",
@@ -89,20 +91,26 @@ Your Neon database includes:
 ## Troubleshooting
 
 ### Connection Timeout
+
 If you get connection timeouts, check:
+
 1. Your IP is allowed in Neon's IP allowlist (if enabled)
 2. The connection string is correct
 3. SSL mode is set to `require`
 
 ### Schema Not Created
+
 If tables aren't created automatically:
+
 ```bash
 # Manually run the schema
 psql "your-neon-connection-string" -f apps/backend/src/db/schema.sql
 ```
 
 ### Check Logs
+
 View backend logs for database errors:
+
 ```bash
 cd apps/backend
 npm run dev

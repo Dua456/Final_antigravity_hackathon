@@ -3,12 +3,14 @@
 ## ✅ System Status
 
 ### Backend Server
+
 - ✅ **Running on port 3001**
 - ✅ Twilio service initialized (demo mode)
 - ✅ Database connected
 - ✅ All API endpoints active
 
 ### Frontend Server
+
 - 🔄 Starting on port 3000...
 
 ---
@@ -16,12 +18,14 @@
 ## 🎯 What's Been Improved
 
 ### 1. **Fully Automatic System** ⚡
+
 - No manual button clicks needed
 - Auto-starts monitoring on page load
 - Automatically analyzes voice with Gemini AI
 - Automatically sends SMS, WhatsApp, and voice calls
 
 ### 2. **Professional UI** 🎨
+
 - Modern dark theme (slate/purple/pink gradients)
 - 32-bar audio visualizer with glowing effects
 - Animated emergency countdown
@@ -29,6 +33,7 @@
 - Glassmorphism and backdrop blur effects
 
 ### 3. **Multi-Channel Alerts** 📱
+
 - **SMS**: Text messages with GPS location
 - **WhatsApp**: Rich formatted messages
 - **Voice Calls**: Automated TTS emergency calls
@@ -40,17 +45,21 @@
 ## 🧪 How to Test
 
 ### Step 1: Open the Application
+
 ```
 http://localhost:3000/monitor
 ```
 
 ### Step 2: Grant Permissions
+
 - Allow microphone access
 - Allow location access
 - System will auto-start monitoring
 
 ### Step 3: Trigger Emergency Detection
+
 **Option A: Say a wake phrase**
+
 - "help me"
 - "emergency"
 - "call police"
@@ -58,11 +67,13 @@ http://localhost:3000/monitor
 - "I need help"
 
 **Option B: Wait for automatic detection**
+
 - System continuously monitors audio
 - AI analyzes voice patterns
 - High threat triggers countdown automatically
 
 ### Step 4: Watch the Flow
+
 1. **Wake phrase detected** → Toast notification appears
 2. **AI analysis** → Gemini analyzes threat level
 3. **Countdown starts** → 10-second countdown with cancel option
@@ -82,6 +93,7 @@ http://localhost:3000/monitor
 
 2. **Configure Backend**
    Create `apps/backend/.env`:
+
    ```bash
    TWILIO_ACCOUNT_SID=your_account_sid
    TWILIO_AUTH_TOKEN=your_auth_token
@@ -95,6 +107,7 @@ http://localhost:3000/monitor
    ```
 
 ### For Demo/Testing (Current Setup)
+
 - ✅ Already configured for demo mode
 - ✅ All alerts logged to console
 - ✅ No real SMS/calls sent
@@ -105,6 +118,7 @@ http://localhost:3000/monitor
 ## 🎨 UI Features
 
 ### Main Monitor Page
+
 - **Auto-start indicator** - Green pulsing dot
 - **System status cards** - Active/Standby, Detections, Buffer, GPS
 - **Live audio visualizer** - 32 animated bars
@@ -112,12 +126,14 @@ http://localhost:3000/monitor
 - **Agent workflow logs** - Real-time AI reasoning trace
 
 ### Emergency Countdown
+
 - **10-second countdown** - Large animated numbers
 - **Threat metrics** - Level and confidence percentage
 - **Cancel button** - Requires biometric verification
 - **Animated background** - Pulsing red/orange orbs
 
 ### Emergency Active Screen
+
 - **Status checklist** - SMS ✅ WhatsApp ✅ Calls ✅
 - **Live GPS coordinates** - 6 decimal precision
 - **Animated emoji** - Rotating siren
@@ -127,21 +143,22 @@ http://localhost:3000/monitor
 
 ## 📊 Key Improvements Summary
 
-| Feature | Before | After |
-|---------|--------|-------|
-| **Monitoring** | Manual start button | Auto-starts on page load |
-| **AI Analysis** | Manual "Test AI" button | Automatic on wake phrase |
-| **Alerts** | Not implemented | SMS + WhatsApp + Voice calls |
-| **UI Theme** | Light theme | Professional dark theme |
-| **Visualizer** | 20 bars, basic | 32 bars, glowing gradients |
-| **Countdown** | Basic overlay | Animated with biometric auth |
-| **Emergency Screen** | Simple text | Full-screen with status |
+| Feature              | Before                  | After                        |
+| -------------------- | ----------------------- | ---------------------------- |
+| **Monitoring**       | Manual start button     | Auto-starts on page load     |
+| **AI Analysis**      | Manual "Test AI" button | Automatic on wake phrase     |
+| **Alerts**           | Not implemented         | SMS + WhatsApp + Voice calls |
+| **UI Theme**         | Light theme             | Professional dark theme      |
+| **Visualizer**       | 20 bars, basic          | 32 bars, glowing gradients   |
+| **Countdown**        | Basic overlay           | Animated with biometric auth |
+| **Emergency Screen** | Simple text             | Full-screen with status      |
 
 ---
 
 ## 🔧 Technical Stack
 
 ### Backend
+
 - **Express.js** - REST API server
 - **Twilio** - SMS, WhatsApp, Voice calls
 - **PostgreSQL** - Database (optional)
@@ -149,6 +166,7 @@ http://localhost:3000/monitor
 - **Gemini AI** - Voice analysis
 
 ### Frontend
+
 - **Next.js 14** - React framework
 - **Tailwind CSS** - Styling
 - **Framer Motion** - Animations
@@ -205,6 +223,7 @@ User Dismisses When Safe
 ## 🎉 Ready to Use!
 
 The system is now **fully automatic and production-ready**. Just open the monitor page and it will:
+
 1. ✅ Auto-start monitoring
 2. ✅ Listen for emergencies
 3. ✅ Analyze with AI
@@ -217,6 +236,7 @@ The system is now **fully automatic and production-ready**. Just open the monito
 ## 📞 Support
 
 For issues or questions:
+
 - Check browser console for logs
 - Verify microphone permissions
 - Ensure backend is running on port 3001

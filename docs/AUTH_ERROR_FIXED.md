@@ -3,6 +3,7 @@
 ## ✅ What Was Fixed
 
 ### Your Error:
+
 ```
 GET http://localhost:3001/api/emergency-contacts/list 401 (Unauthorized)
 POST http://localhost:3001/api/emergency-contacts/add 401 (Unauthorized)
@@ -15,6 +16,7 @@ POST http://localhost:3001/api/emergency-contacts/add 401 (Unauthorized)
 ## 🐛 The Problem
 
 ### Before (❌ Wrong):
+
 ```
 User opens /contacts page
    ↓
@@ -30,6 +32,7 @@ Contacts don't load
 ```
 
 ### After (✅ Correct):
+
 ```
 User opens /contacts page
    ↓
@@ -53,7 +56,11 @@ Contacts load successfully
 **New File:** `apps/backend/src/middleware/optionalAuth.ts`
 
 ```typescript
-export const optionalAuthenticate = (req: AuthRequest, _res: Response, next: NextFunction): void => {
+export const optionalAuthenticate = (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+): void => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -83,6 +90,7 @@ export const optionalAuthenticate = (req: AuthRequest, _res: Response, next: Nex
 **Changed in:** `apps/backend/src/routes/emergencyContactsSimple.ts`
 
 **Before:**
+
 ```typescript
 import { authenticate, AuthRequest } from '../middleware/auth';
 
@@ -92,6 +100,7 @@ router.delete('/:contactId', authenticate, async (req: AuthRequest, res: Respons
 ```
 
 **After:**
+
 ```typescript
 import { AuthRequest } from '../middleware/auth';
 import { optionalAuthenticate } from '../middleware/optionalAuth';
@@ -106,6 +115,7 @@ router.delete('/:contactId', optionalAuthenticate, async (req: AuthRequest, res:
 ## 🎯 How It Works Now
 
 ### With Token (Production):
+
 ```
 Request with Authorization: Bearer <token>
    ↓
@@ -119,6 +129,7 @@ Use real user ID for database queries
 ```
 
 ### Without Token (Testing):
+
 ```
 Request without Authorization header
    ↓
@@ -132,6 +143,7 @@ Use test user ID for database queries
 ```
 
 ### With Invalid Token:
+
 ```
 Request with invalid/expired token
    ↓
@@ -147,17 +159,20 @@ Fall back to test user ID: 'test-user-001'
 ## 🚀 IMPORTANT: Restart Backend!
 
 ### Step 1: Stop Backend
+
 ```bash
 # Press Ctrl+C in backend terminal
 ```
 
 ### Step 2: Restart Backend
+
 ```bash
 cd apps/backend
 npm run dev
 ```
 
 **You should see:**
+
 ```
 ✅ Server running on port 3001
 ✅ Database connected
@@ -168,6 +183,7 @@ npm run dev
 ## 🧪 Test It Now
 
 ### Test 1: Load Contacts Page
+
 ```
 1. Open http://localhost:3000/contacts
 2. ✅ Page loads without 401 error
@@ -176,6 +192,7 @@ npm run dev
 ```
 
 ### Test 2: Add a Contact
+
 ```
 1. Click "Add Emergency Contact"
 2. Fill in:
@@ -188,6 +205,7 @@ npm run dev
 ```
 
 ### Test 3: Check Backend Logs
+
 ```
 Backend terminal should show:
 ⚠️ No auth token provided, using test user ID: test-user-001
@@ -196,6 +214,7 @@ Backend terminal should show:
 ```
 
 ### Test 4: Verify in Database
+
 ```sql
 SELECT * FROM emergency_contacts
 WHERE user_id = 'test-user-001'
@@ -203,6 +222,7 @@ ORDER BY created_at DESC;
 ```
 
 **Expected Result:**
+
 ```
 ✅ Contacts saved with user_id = 'test-user-001'
 ✅ All fields populated
@@ -213,11 +233,13 @@ ORDER BY created_at DESC;
 ## 📊 Before vs After
 
 ### Before (401 Error):
+
 ```
 Frontend Request → Backend → ❌ No Token → 401 Error → Failed
 ```
 
 ### After (Works):
+
 ```
 Frontend Request → Backend → No Token → Use Test User → ✅ Success
 ```
@@ -227,12 +249,14 @@ Frontend Request → Backend → No Token → Use Test User → ✅ Success
 ## 🔒 Security Note
 
 ### For Testing (Current Setup):
+
 - ✅ No login required
 - ✅ Uses default test user ID
 - ✅ Perfect for development/testing
 - ⚠️ All users share same test user data
 
 ### For Production (Future):
+
 - 🔐 Implement proper login
 - 🔐 Each user gets unique token
 - 🔐 Each user sees only their contacts
@@ -243,12 +267,14 @@ Frontend Request → Backend → No Token → Use Test User → ✅ Success
 ## 🎯 What This Fixes
 
 ### Fixed Issues:
+
 1. ✅ 401 Unauthorized error on /contacts page
 2. ✅ Can't add emergency contacts
 3. ✅ Can't view emergency contacts
 4. ✅ Can't delete emergency contacts
 
 ### Now Works:
+
 1. ✅ Contacts page loads without error
 2. ✅ Can add contacts successfully
 3. ✅ Can view all contacts
@@ -260,6 +286,7 @@ Frontend Request → Backend → No Token → Use Test User → ✅ Success
 ## 🔍 Backend Console Output
 
 ### When Adding Contact:
+
 ```
 ⚠️ No auth token provided, using test user ID: test-user-001
 📝 Adding emergency contact
@@ -279,6 +306,7 @@ Frontend Request → Backend → No Token → Use Test User → ✅ Success
 ```
 
 ### When Fetching Contacts:
+
 ```
 ⚠️ No auth token provided, using test user ID: test-user-001
 📋 Fetching emergency contacts
@@ -297,15 +325,18 @@ Frontend Request → Backend → No Token → Use Test User → ✅ Success
 ## ✅ Summary
 
 ### What Changed:
+
 - ❌ Before: Required authentication token (strict)
 - ✅ After: Optional authentication (flexible for testing)
 
 ### How It Works:
+
 - 🔐 With token → Uses real user ID
 - 🧪 Without token → Uses test user ID ('test-user-001')
 - ⚠️ Invalid token → Falls back to test user ID
 
 ### Result:
+
 - ✅ No more 401 errors
 - ✅ Contacts page works
 - ✅ Can add/view/delete contacts
@@ -323,6 +354,7 @@ npm run dev
 ```
 
 **Phir test karo:**
+
 ```
 http://localhost:3000/contacts
 ```

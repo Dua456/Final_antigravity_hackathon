@@ -5,11 +5,13 @@ Your backend is running and ready to analyze audio!
 ## Quick Test
 
 ### 1. Check Backend Health
+
 ```bash
 curl http://localhost:3001/health
 ```
 
 Expected response:
+
 ```json
 {"status":"healthy","timestamp":"...","uptime":...,"environment":"development"}
 ```
@@ -27,7 +29,7 @@ curl -X POST http://localhost:3001/api/ai/analyze \
 ### 3. Available API Endpoints
 
 - `GET /health` - Server health check
-- `GET /api/health` - API health check  
+- `GET /api/health` - API health check
 - `POST /api/emergency` - Create emergency event
 - `POST /api/ai/analyze` - Analyze audio/text for emergency
 - `POST /api/auth/register` - Register user
@@ -36,16 +38,19 @@ curl -X POST http://localhost:3001/api/ai/analyze \
 ## What's Working
 
 ✅ **Gemini AI Integration**
+
 - Model: gemini-2.5-flash
 - API Key: Valid and working
 - Ready to analyze audio for emergencies
 
 ✅ **Database**
+
 - Neon PostgreSQL connected
 - All tables created
 - Ready for data storage
 
 ✅ **Backend Server**
+
 - Running on port 3001
 - All routes operational
 - Error handling in place
@@ -54,6 +59,7 @@ curl -X POST http://localhost:3001/api/ai/analyze \
 
 The frontend has build issues but this doesn't affect the backend functionality.
 You can:
+
 1. Fix the frontend (reinstall dependencies)
 2. Build a new frontend
 3. Use the API directly with tools like Postman

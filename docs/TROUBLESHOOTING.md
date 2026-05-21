@@ -9,6 +9,7 @@ Let's fix this step by step.
 ## Step 1: Check if Backend is Running
 
 ### Open PowerShell and run:
+
 ```powershell
 cd C:\Users\FC\Documents\hackathon-main\apps\backend
 npm run dev
@@ -17,6 +18,7 @@ npm run dev
 ### What to look for:
 
 ✅ **SUCCESS - Backend is running:**
+
 ```
 [INFO] Database pool initialized
 [INFO] Server running on port 3001 in development mode
@@ -30,9 +32,11 @@ Look for error messages in the output.
 ## Step 2: Common Startup Errors & Fixes
 
 ### Error 1: "Cannot find module 'firebase-admin'"
+
 **Already fixed!** ✅ firebase-admin is installed.
 
 ### Error 2: "Port 3001 is already in use"
+
 ```powershell
 # Find what's using port 3001
 netstat -ano | findstr :3001
@@ -45,6 +49,7 @@ npm run dev
 ```
 
 ### Error 3: "Cannot find module '@silentsiren/config'"
+
 ```powershell
 # Install all dependencies
 npm install
@@ -54,13 +59,16 @@ npm run dev
 ```
 
 ### Error 4: "Database connection failed"
+
 This is okay for now! Backend will still start with a warning.
 
 To fix later:
+
 - Setup Neon database (see `NEON_SETUP_QUICKSTART.md`)
 - Or comment out database initialization temporarily
 
 ### Error 5: "Redis connection failed"
+
 This is okay! Backend will continue with a warning.
 Redis is optional for development.
 
@@ -69,21 +77,25 @@ Redis is optional for development.
 ## Step 3: Verify Backend is Running
 
 ### Check 1: Look for this message
+
 ```
 [INFO] Server running on port 3001 in development mode
 ```
 
 ### Check 2: Test with curl
+
 ```powershell
 curl http://localhost:3001/api/health
 ```
 
 **Expected response:**
+
 ```json
-{"status":"healthy","timestamp":"...","uptime":5.123,"environment":"development"}
+{ "status": "healthy", "timestamp": "...", "uptime": 5.123, "environment": "development" }
 ```
 
 ### Check 3: Check in browser
+
 Open: http://localhost:3001/api/health
 
 ---
@@ -91,6 +103,7 @@ Open: http://localhost:3001/api/health
 ## Step 4: If Backend Still Won't Start
 
 ### Option A: Check for detailed errors
+
 ```powershell
 # Navigate to backend
 cd C:\Users\FC\Documents\hackathon-main\apps\backend
@@ -103,6 +116,7 @@ npm run dev
 ```
 
 ### Option B: Check environment variables
+
 ```powershell
 # Make sure .env file exists in project root
 cd C:\Users\FC\Documents\hackathon-main
@@ -115,7 +129,9 @@ type .env | findstr PORT
 Should show: `PORT=3001`
 
 ### Option C: Try a different port
+
 Edit `.env` file:
+
 ```env
 PORT=3002
 ```

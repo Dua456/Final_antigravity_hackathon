@@ -78,6 +78,7 @@ npm run dev
 ```
 
 You should see:
+
 ```
 ✅ Database connected successfully
 ✅ Database schema verified
@@ -94,6 +95,7 @@ curl http://localhost:3001/api/health/detailed
 ```
 
 Expected response:
+
 ```json
 {
   "status": "healthy",

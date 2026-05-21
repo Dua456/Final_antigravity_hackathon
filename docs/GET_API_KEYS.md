@@ -19,6 +19,7 @@ Your OpenRouter key seems valid but hitting free tier rate limits.
 **Option A: Wait and retry** (free tier resets after some time)
 
 **Option B: Get credits or upgrade:**
+
 1. Go to: https://openrouter.ai/settings/keys
 2. Sign in
 3. Add credits or upgrade plan
@@ -47,6 +48,7 @@ Your Neon database is already working perfectly! No action needed.
 ## Quick Test After Fixing
 
 Run this command to test all services:
+
 ```bash
 node test-services.js
 ```

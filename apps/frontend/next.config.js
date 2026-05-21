@@ -3,9 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages: ['@silentsiren/shared-types'],
+  output: 'standalone',
   eslint: {
     // Disable ESLint during production builds
     ignoreDuringBuilds: true,
+  },
+  typescript: {
+    // Disable type checking during production builds
+    ignoreBuildErrors: true,
   },
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',

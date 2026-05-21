@@ -2,7 +2,7 @@ import { Router, Response } from 'express';
 import { authenticate, AuthRequest } from '../middleware/auth';
 import { strictRateLimiter } from '../middleware/rateLimiter';
 import { createLogger } from '@silentsiren/logger';
-import { freeSMSService } from '../services/freeSMS.service';
+import { freeSMSService, EmergencyContact } from '../services/freeSMS.service';
 import { z } from 'zod';
 
 const router = Router();
@@ -74,7 +74,11 @@ router.post(
     try {
       const { contacts, location, audioUrl } = sendEmergencyAlertSchema.parse(req.body);
 
-      const result = await freeSMSService.sendEmergencyAlerts(contacts, location, audioUrl);
+      const result = await freeSMSService.sendEmergencyAlerts(
+        contacts as EmergencyContact[],
+        location,
+        audioUrl
+      );
 
       res.json({
         success: true,

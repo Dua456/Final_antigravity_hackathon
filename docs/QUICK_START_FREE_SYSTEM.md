@@ -3,6 +3,7 @@
 ## ✅ Installation Complete!
 
 All packages installed successfully:
+
 - ✅ nodemailer@7.0.13
 - ✅ @types/nodemailer
 - ✅ All other dependencies
@@ -14,6 +15,7 @@ All packages installed successfully:
 ### Step 1: Configure Gmail Credentials
 
 **Option A: Use Existing Gmail**
+
 ```bash
 # Edit .env file
 cd apps/backend
@@ -21,6 +23,7 @@ notepad .env
 ```
 
 **Add these lines:**
+
 ```env
 # Free SMS Configuration
 GMAIL_USER=your-email@gmail.com
@@ -31,6 +34,7 @@ APP_URL=http://localhost:3001
 ```
 
 **Option B: Get Gmail App Password**
+
 1. Go to: https://myaccount.google.com/apppasswords
 2. Enable 2-Step Verification (if not enabled)
 3. Generate app password for "Mail"
@@ -47,6 +51,7 @@ npm run dev
 ```
 
 **Expected Output:**
+
 ```
 ✓ Database pool initialized
 ✓ Antigravity Trace Logger initialized
@@ -59,12 +64,14 @@ npm run dev
 ### Step 3: Start Frontend
 
 **Open new terminal:**
+
 ```bash
 cd apps/frontend
 npm run dev
 ```
 
 **Expected Output:**
+
 ```
 ✓ Ready in 2.5s
 ✓ Local: http://localhost:3000
@@ -75,11 +82,13 @@ npm run dev
 ### Step 4: Test Free Emergency System
 
 **Open browser:**
+
 ```
 http://localhost:3000/emergency/free-system
 ```
 
 **Test Flow:**
+
 1. ✅ Add emergency contact with carrier
 2. ✅ Record voice
 3. ✅ Wait for Gemini AI analysis
@@ -91,11 +100,13 @@ http://localhost:3000/emergency/free-system
 ## 🧪 Quick Test Commands
 
 ### Test Gmail SMTP:
+
 ```bash
 node test-gmail-smtp.js
 ```
 
 ### Test Free Emergency System:
+
 ```bash
 export TEST_TOKEN=your-jwt-token
 node test-free-emergency.js
@@ -106,6 +117,7 @@ node test-free-emergency.js
 ## 📱 Features Available
 
 ### Free SMS (Email-to-SMS Gateway)
+
 - ✅ 14+ carriers supported
 - ✅ Pakistan: Jazz, Telenor, Zong, Ufone
 - ✅ USA: Verizon, AT&T, T-Mobile, Sprint
@@ -113,11 +125,13 @@ node test-free-emergency.js
 - ✅ UK: O2, Vodafone, Three
 
 ### Native Phone Features
+
 - ✅ WhatsApp messages (wa.me links)
 - ✅ Phone calls (tel: protocol)
 - ✅ SMS app (sms: protocol)
 
 ### Audio Storage
+
 - ✅ Local file storage
 - ✅ Public URL generation
 - ✅ Audio playback and download
@@ -127,12 +141,14 @@ node test-free-emergency.js
 ## 🎯 API Endpoints
 
 ### Get Supported Carriers
+
 ```bash
 GET /api/emergency-sms/carriers
 Authorization: Bearer <token>
 ```
 
 ### Send Free SMS
+
 ```bash
 POST /api/emergency-sms/send-sms
 Authorization: Bearer <token>
@@ -146,6 +162,7 @@ Body:
 ```
 
 ### Send Emergency Alerts
+
 ```bash
 POST /api/emergency-sms/send-emergency-alerts
 Authorization: Bearer <token>
@@ -163,6 +180,7 @@ Body:
 ## ⚠️ Troubleshooting
 
 ### Backend Not Starting?
+
 ```bash
 # Check if nodemailer is installed
 npm list nodemailer
@@ -177,6 +195,7 @@ npm run dev
 ```
 
 ### Gmail SMTP Not Working?
+
 ```bash
 # Test credentials
 node test-gmail-smtp.js
@@ -189,6 +208,7 @@ GMAIL_APP_PASSWORD=abcdefghijklmnop
 ```
 
 ### SMS Not Delivered?
+
 - Check carrier is correct
 - Verify phone number format (+country code)
 - Wait 1-5 minutes for delivery
@@ -199,13 +219,13 @@ GMAIL_APP_PASSWORD=abcdefghijklmnop
 
 ## 💰 Cost Summary
 
-| Service | Cost | Limit |
-|---------|------|-------|
-| Gmail SMTP | FREE | 500/day |
-| Audio Storage | FREE | Disk space |
-| WhatsApp | FREE | Unlimited |
-| Phone Calls | FREE | User's balance |
-| **TOTAL** | **₹0** | **Completely FREE** |
+| Service       | Cost   | Limit               |
+| ------------- | ------ | ------------------- |
+| Gmail SMTP    | FREE   | 500/day             |
+| Audio Storage | FREE   | Disk space          |
+| WhatsApp      | FREE   | Unlimited           |
+| Phone Calls   | FREE   | User's balance      |
+| **TOTAL**     | **₹0** | **Completely FREE** |
 
 ---
 

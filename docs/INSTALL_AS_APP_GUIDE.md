@@ -7,6 +7,7 @@
 ## 📱 ANDROID INSTALLATION
 
 ### Method 1: Chrome Browser
+
 1. Open **Chrome** on your Android phone
 2. Go to your app URL:
    - Local: `http://YOUR_COMPUTER_IP:3000`
@@ -17,6 +18,7 @@
 6. ✅ App icon appears on home screen!
 
 ### Method 2: Chrome Install Banner
+
 1. Open the app in Chrome
 2. Wait for install prompt to appear
 3. Tap **"Install"**
@@ -27,6 +29,7 @@
 ## 📱 iOS (iPhone/iPad) INSTALLATION
 
 ### Safari Browser
+
 1. Open **Safari** on your iPhone/iPad
 2. Go to your app URL
 3. Tap the **Share button** (□↑) at bottom
@@ -42,6 +45,7 @@
 ## 💻 DESKTOP INSTALLATION
 
 ### Windows/Mac/Linux
+
 1. Open **Chrome** or **Edge** browser
 2. Go to your app URL
 3. Look for **install icon (⊕)** in address bar
@@ -58,18 +62,23 @@ If running on localhost, you need your computer's IP:
 ### Find Your Computer IP:
 
 **Windows:**
+
 ```bash
 ipconfig
 ```
+
 Look for "IPv4 Address" (e.g., 192.168.1.100)
 
 **Mac/Linux:**
+
 ```bash
 ifconfig
 ```
+
 Look for "inet" address
 
 ### Access from Phone:
+
 1. Make sure phone is on same WiFi
 2. Open browser on phone
 3. Go to: `http://YOUR_IP:3000`
@@ -83,14 +92,17 @@ Look for "inet" address
 Deploy your app to get a public URL:
 
 ### Option 1: Vercel (Easiest)
+
 ```bash
 npm install -g vercel
 cd apps/frontend
 vercel
 ```
+
 Get URL like: `https://silentsiren.vercel.app`
 
 ### Option 2: Netlify
+
 ```bash
 npm install -g netlify-cli
 cd apps/frontend
@@ -99,6 +111,7 @@ netlify deploy --prod
 ```
 
 ### Option 3: Railway
+
 ```bash
 npm install -g railway
 railway login
@@ -112,6 +125,7 @@ Then install the app using the public URL!
 ## ✅ FEATURES AFTER INSTALLATION
 
 Once installed, your app:
+
 - ✅ Opens like a native app
 - ✅ Has its own icon
 - ✅ Runs in fullscreen
@@ -137,16 +151,19 @@ Once installed, your app:
 ## 🔧 TROUBLESHOOTING
 
 **"Install" option not showing?**
+
 - Make sure you're using Chrome/Safari
 - Check manifest.json is accessible
 - Verify HTTPS (or localhost)
 
 **Can't access from phone?**
+
 - Check same WiFi network
 - Verify firewall allows connections
 - Try computer IP instead of localhost
 
 **App not working offline?**
+
 - Service worker needs to be registered
 - Visit app online first
 - Check browser console for errors

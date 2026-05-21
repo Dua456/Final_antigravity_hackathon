@@ -1,6 +1,7 @@
 # ▶️ START BACKEND NOW - Follow These Exact Steps
 
 ## The Issue:
+
 ✅ Port 3001 is free (nothing using it)
 ❌ Backend is not running yet
 
@@ -54,8 +55,14 @@ curl http://localhost:3001/api/health
 ```
 
 **Expected Response:**
+
 ```json
-{"status":"healthy","timestamp":"2026-05-15T...","uptime":5.123,"environment":"development"}
+{
+  "status": "healthy",
+  "timestamp": "2026-05-15T...",
+  "uptime": 5.123,
+  "environment": "development"
+}
 ```
 
 ✅ **If you see this JSON response - Backend is working!**
@@ -65,6 +72,7 @@ curl http://localhost:3001/api/health
 ## 🚨 If You See Errors:
 
 ### Error: "Cannot find module"
+
 ```powershell
 # Install dependencies
 npm install
@@ -74,6 +82,7 @@ npm run dev
 ```
 
 ### Error: "Port 3001 already in use"
+
 ```powershell
 # Change port in .env file
 # Edit: C:\Users\FC\Documents\hackathon-main\.env
@@ -88,10 +97,12 @@ curl http://localhost:3002/api/health
 ```
 
 ### Error: "Database connection failed"
+
 **This is OK!** Backend will still start with a warning.
 You can setup database later.
 
 ### Error: "ENOENT: no such file or directory"
+
 ```powershell
 # Make sure you're in the right directory
 pwd
@@ -117,6 +128,7 @@ cd C:\Users\FC\Documents\hackathon-main\apps\backend
 ## 🎯 What to Do After Backend Starts:
 
 ### Test User Registration:
+
 ```powershell
 curl -X POST http://localhost:3001/api/auth/register ^
   -H "Content-Type: application/json" ^
@@ -124,6 +136,7 @@ curl -X POST http://localhost:3001/api/auth/register ^
 ```
 
 ### Start Frontend (Optional):
+
 ```powershell
 # In a NEW terminal
 cd C:\Users\FC\Documents\hackathon-main\apps\frontend
@@ -159,11 +172,13 @@ Then open: http://localhost:3000
 ## ✅ Success Looks Like:
 
 **Terminal 1 (Backend):**
+
 ```
 [INFO] Server running on port 3001 in development mode
 ```
 
 **Terminal 2 (Testing):**
+
 ```powershell
 PS> curl http://localhost:3001/api/health
 {"status":"healthy",...}

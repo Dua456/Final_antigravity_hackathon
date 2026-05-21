@@ -9,6 +9,7 @@ The Antigravity Trace System provides comprehensive logging, tracing, and debugg
 ## ✨ Features
 
 ### Core Capabilities
+
 - ✅ **AI Prompt & Response Logging** - All AI interactions are saved with timestamps
 - ✅ **Crisis Detection Tracing** - Track how the system detects emergencies
 - ✅ **Confidence Scoring** - Multi-factor confidence calculation with reasoning
@@ -21,6 +22,7 @@ The Antigravity Trace System provides comprehensive logging, tracing, and debugg
 - ✅ **Action History** - Track all actions with status and duration
 
 ### Output Formats
+
 - **JSON** - Machine-readable structured logs
 - **Markdown** - Human-readable trace reports
 - **Dashboard** - Interactive web interface with timeline view
@@ -143,22 +145,13 @@ antigravityTrace.logSignalFusion(traceId, {
 });
 
 // Log alert execution
-await antigravityTrace.logAlertExecution(
-  traceId,
-  'SMS',
-  ['+923343717260'],
-  async () => {
-    // Your alert sending logic
-    return { sent: true, messageId: 'sms_123' };
-  }
-);
+await antigravityTrace.logAlertExecution(traceId, 'SMS', ['+923343717260'], async () => {
+  // Your alert sending logic
+  return { sent: true, messageId: 'sms_123' };
+});
 
 // End trace
-antigravityTrace.endEmergencyTrace(
-  traceId,
-  'Emergency Processed Successfully',
-  'COMPLETED'
-);
+antigravityTrace.endEmergencyTrace(traceId, 'Emergency Processed Successfully', 'COMPLETED');
 ```
 
 ### 3. Confidence Scoring
@@ -168,10 +161,10 @@ import { confidenceScorer } from './services/antigravity/confidenceScorer';
 
 // Score AI analysis
 const aiScore = confidenceScorer.scoreAIAnalysis(
-  0.85,                                    // AI confidence
-  ['distress_keywords', 'panic_tone'],     // Detected patterns
-  0.78,                                    // Emotional stress
-  150                                      // Transcript length
+  0.85, // AI confidence
+  ['distress_keywords', 'panic_tone'], // Detected patterns
+  0.78, // Emotional stress
+  150 // Transcript length
 );
 
 console.log(`Overall Score: ${aiScore.overallScore}`);
@@ -197,36 +190,42 @@ console.log(`Dispatch Required: ${shouldDispatch}`);
 ## 🎯 API Endpoints
 
 ### Get All Traces
+
 ```bash
 GET /api/traces?limit=20&offset=0
 Authorization: Bearer <token>
 ```
 
 ### Get Specific Trace
+
 ```bash
 GET /api/traces/:traceId
 Authorization: Bearer <token>
 ```
 
 ### Get Trace Events
+
 ```bash
 GET /api/traces/:traceId/events?eventType=AI_PROMPT&severity=HIGH
 Authorization: Bearer <token>
 ```
 
 ### Get Trace Timeline
+
 ```bash
 GET /api/traces/:traceId/timeline
 Authorization: Bearer <token>
 ```
 
 ### Get Trace Statistics
+
 ```bash
 GET /api/traces/stats
 Authorization: Bearer <token>
 ```
 
 ### Get Active Traces
+
 ```bash
 GET /api/traces/active
 Authorization: Bearer <token>
@@ -235,18 +234,21 @@ Authorization: Bearer <token>
 ## 📊 Dashboard Features
 
 ### Traces List (`/dashboard/traces`)
+
 - View all emergency traces
 - Filter by date, severity, confidence
 - Quick stats overview
 - Click to view detailed trace
 
 ### Trace Detail (`/dashboard/traces/:traceId`)
+
 - **Timeline View** - Chronological event flow with severity indicators
 - **Events Tab** - All logged events with data
 - **Decisions Tab** - AI decision chain with confidence scores
 - **Actions Tab** - Action execution history with status
 
 ### Key Metrics
+
 - Total Events
 - Critical Events Count
 - Average Confidence Score
@@ -256,43 +258,48 @@ Authorization: Bearer <token>
 
 ## 🔍 Event Types
 
-| Event Type | Description | Severity |
-|------------|-------------|----------|
-| `AI_PROMPT` | AI model prompt sent | LOW |
-| `AI_RESPONSE` | AI model response received | Variable |
-| `CRISIS_DETECTION` | Crisis detected or not | CRITICAL/LOW |
-| `CONFIDENCE_SCORE` | Confidence calculation | Variable |
-| `SIGNAL_FUSION` | Multiple signals combined | MEDIUM |
-| `EMERGENCY_CLASSIFICATION` | Emergency classified | Variable |
-| `FALLBACK_ACTION` | Fallback triggered | HIGH |
-| `GPS_EVENT` | Location updated | LOW |
-| `ALERT_EXECUTION` | Alert sent | MEDIUM/HIGH |
-| `EMERGENCY_RESPONSE` | Response phase update | Variable |
+| Event Type                 | Description                | Severity     |
+| -------------------------- | -------------------------- | ------------ |
+| `AI_PROMPT`                | AI model prompt sent       | LOW          |
+| `AI_RESPONSE`              | AI model response received | Variable     |
+| `CRISIS_DETECTION`         | Crisis detected or not     | CRITICAL/LOW |
+| `CONFIDENCE_SCORE`         | Confidence calculation     | Variable     |
+| `SIGNAL_FUSION`            | Multiple signals combined  | MEDIUM       |
+| `EMERGENCY_CLASSIFICATION` | Emergency classified       | Variable     |
+| `FALLBACK_ACTION`          | Fallback triggered         | HIGH         |
+| `GPS_EVENT`                | Location updated           | LOW          |
+| `ALERT_EXECUTION`          | Alert sent                 | MEDIUM/HIGH  |
+| `EMERGENCY_RESPONSE`       | Response phase update      | Variable     |
 
 ## 🎨 Confidence Scoring Factors
 
 ### AI Analysis
+
 - **AI Model Confidence** (40%) - Direct AI output
 - **Pattern Detection** (30%) - Number of distress patterns
 - **Emotional Stress** (20%) - Voice stress analysis
 - **Transcript Quality** (10%) - Length and clarity
 
 ### Signal Fusion
+
 - Weighted average of multiple signals
 - Each signal has confidence and weight
 - Variance analysis for reliability
 
 ### Location Accuracy
+
 - **GPS Accuracy** (50%) - Meters accuracy
 - **Address Available** (30%) - Geocoding success
 - **Location Freshness** (20%) - Time since update
 
 ### User Trigger
+
 - **Trigger Type** (50%) - Panic button > Manual > Voice
 - **User Reputation** (30%) - Historical reliability
 - **False Alarm History** (20%) - Previous false alarms
 
 ### Community Validation
+
 - **Confirmation Ratio** (50%) - % of confirmations
 - **Denial Impact** (30%) - % of denials
 - **Validator Proximity** (20%) - Distance from event
@@ -300,6 +307,7 @@ Authorization: Bearer <token>
 ## 🛠️ Middleware
 
 ### Automatic Tracing
+
 ```typescript
 // Applied to all API requests
 app.use(traceMiddleware);
@@ -312,6 +320,7 @@ app.use(traceErrorMiddleware);
 ```
 
 ### Request Context
+
 ```typescript
 // Access trace context in routes
 req.traceContext = {
@@ -325,6 +334,7 @@ req.traceContext = {
 ## 📝 Trace Output Example
 
 ### JSON Format
+
 ```json
 {
   "traceId": "abc-123",
@@ -346,13 +356,16 @@ req.traceContext = {
 ```
 
 ### Markdown Format
+
 ```markdown
 # Antigravity Trace Report
+
 **Trace ID:** abc-123
 **Session Start:** 2026-05-17T10:00:00Z
 **Session End:** 2026-05-17T10:00:15Z
 
 ## Summary
+
 - **Total Events:** 25
 - **Critical Events:** 3
 - **Average Confidence:** 87.00%
@@ -362,7 +375,9 @@ req.traceContext = {
 - **Duration:** 15000ms
 
 ## Decision Chain
+
 ### 1. Emergency Detection Initiated
+
 - **Timestamp:** 2026-05-17T10:00:00Z
 - **Confidence:** 100.00%
 - **Reasoning:** User triggered emergency via MANUAL
@@ -373,6 +388,7 @@ req.traceContext = {
 ## 🧪 Testing
 
 ### Generate Test Trace
+
 ```typescript
 import { executeEmergencyPipeline } from './services/antigravity/eventPipeline';
 

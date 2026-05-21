@@ -24,6 +24,7 @@ npm list firebase --workspace=@silentsiren/frontend
 ### Step 2: Setup Neon Database (15 minutes)
 
 #### 2.1 Create Neon Account
+
 1. Go to https://console.neon.tech/
 2. Sign up with GitHub or Google
 3. Click **"Create Project"**
@@ -32,6 +33,7 @@ npm list firebase --workspace=@silentsiren/frontend
 6. Click **"Create"**
 
 #### 2.2 Get Connection String
+
 1. In Neon dashboard, click **"Connection Details"**
 2. Copy the connection string (looks like):
    ```
@@ -39,12 +41,14 @@ npm list firebase --workspace=@silentsiren/frontend
    ```
 
 #### 2.3 Update .env File
+
 ```bash
 # Open .env file and update:
 DATABASE_URL=postgresql://username:password@ep-xxx-xxx.region.aws.neon.tech/neondb?sslmode=require
 ```
 
 #### 2.4 Run Database Migrations
+
 ```bash
 # Connect to Neon and run schema
 psql "YOUR_NEON_CONNECTION_STRING" -f apps/backend/src/db/schema.sql
@@ -61,6 +65,7 @@ psql "YOUR_NEON_CONNECTION_STRING" -c "\dt"
 ### Step 3: Setup Firebase (15 minutes)
 
 #### 3.1 Create Firebase Project
+
 1. Go to https://console.firebase.google.com/
 2. Click **"Add project"**
 3. Name: **"SilentSiren AI"**
@@ -68,18 +73,21 @@ psql "YOUR_NEON_CONNECTION_STRING" -c "\dt"
 5. Click **"Create project"**
 
 #### 3.2 Add Web App
+
 1. Click the **Web icon** (</>)
 2. App nickname: **"SilentSiren Web"**
 3. Click **"Register app"**
 4. **Copy the Firebase config** - you'll need this!
 
 #### 3.3 Generate VAPID Key
+
 1. Go to **Project Settings** > **Cloud Messaging** tab
 2. Scroll to **"Web Push certificates"**
 3. Click **"Generate key pair"**
 4. **Copy the VAPID key** (starts with `B...`)
 
 #### 3.4 Download Service Account Key
+
 1. Go to **Project Settings** > **Service Accounts** tab
 2. Click **"Generate new private key"**
 3. Click **"Generate key"**
@@ -87,6 +95,7 @@ psql "YOUR_NEON_CONNECTION_STRING" -c "\dt"
 5. **IMPORTANT:** Keep this file secure!
 
 #### 3.5 Configure Backend (.env)
+
 ```bash
 # Add to your .env file:
 FIREBASE_PROJECT_ID=your-project-id
@@ -95,12 +104,14 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Private-Key-Here\n-----E
 ```
 
 **How to get these from the JSON file:**
+
 - Open the downloaded JSON file
 - `project_id` → FIREBASE_PROJECT_ID
 - `client_email` → FIREBASE_CLIENT_EMAIL
 - `private_key` → FIREBASE_PRIVATE_KEY (keep the \n characters)
 
 #### 3.6 Configure Frontend (.env.local)
+
 ```bash
 # Create apps/frontend/.env.local with:
 NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -116,10 +127,12 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 #### 3.7 Update Service Worker
+
 Edit `apps/frontend/public/firebase-messaging-sw.js`:
+
 ```javascript
 firebase.initializeApp({
-  apiKey: 'YOUR_API_KEY',           // Replace with actual values
+  apiKey: 'YOUR_API_KEY', // Replace with actual values
   authDomain: 'YOUR_AUTH_DOMAIN',
   projectId: 'YOUR_PROJECT_ID',
   storageBucket: 'YOUR_STORAGE_BUCKET',
@@ -146,6 +159,7 @@ npm run dev
 ```
 
 **Expected output:**
+
 ```
 ✅ Database connected successfully
 ✅ Database schema verified
@@ -159,6 +173,7 @@ npm run dev
 ### Step 5: Test Everything (10 minutes)
 
 #### 5.1 Test Backend Health
+
 ```bash
 curl http://localhost:3001/api/health/detailed
 ```
@@ -166,6 +181,7 @@ curl http://localhost:3001/api/health/detailed
 **Expected:** Status 200 with database and Redis status
 
 #### 5.2 Register User
+
 ```bash
 curl -X POST http://localhost:3001/api/auth/register \
   -H "Content-Type: application/json" \
@@ -179,12 +195,14 @@ curl -X POST http://localhost:3001/api/auth/register \
 **Copy the JWT token from response!**
 
 #### 5.3 Test Frontend
+
 1. Open http://localhost:3000
 2. Click "Allow" when prompted for notifications
 3. Check browser console for FCM token
 4. **Copy the FCM token**
 
 #### 5.4 Save FCM Token
+
 ```bash
 curl -X POST http://localhost:3001/api/fcm/save-token \
   -H "Content-Type: application/json" \
@@ -196,6 +214,7 @@ curl -X POST http://localhost:3001/api/fcm/save-token \
 ```
 
 #### 5.5 Send Test Notification
+
 ```bash
 curl -X POST http://localhost:3001/api/fcm/send-test \
   -H "Content-Type: application/json" \
@@ -209,6 +228,7 @@ curl -X POST http://localhost:3001/api/fcm/send-test \
 **You should see a notification in your browser! 🎉**
 
 #### 5.6 Trigger Emergency
+
 ```bash
 curl -X POST http://localhost:3001/api/emergency/trigger \
   -H "Content-Type: application/json" \
@@ -248,27 +268,32 @@ curl -X POST http://localhost:3001/api/emergency/trigger \
 ## 🐛 Troubleshooting
 
 ### Build Error: "Cannot find module 'firebase-admin'"
+
 ```bash
 npm install firebase-admin --workspace=@silentsiren/backend
 ```
 
 ### Build Error: TypeScript errors
+
 ```bash
 # Already fixed in the code
 npm run build --workspace=@silentsiren/backend
 ```
 
 ### Database Connection Failed
+
 - Check DATABASE_URL is correct
 - Ensure `?sslmode=require` is at the end
 - Verify Neon project is active
 
 ### Firebase Not Initialized
+
 - Check all Firebase env vars are set
 - Verify FIREBASE_PRIVATE_KEY has `\n` characters
 - Ensure service account JSON is valid
 
 ### No Notification Received
+
 - Check notification permission is granted
 - Verify FCM token is saved in database
 - Test with `/api/fcm/send-test` first
@@ -279,6 +304,7 @@ npm run build --workspace=@silentsiren/backend
 ## 📊 What You've Built
 
 ### Backend (Node.js/Express)
+
 - ✅ User authentication (JWT)
 - ✅ Emergency event management
 - ✅ Push notification system (FCM)
@@ -290,6 +316,7 @@ npm run build --workspace=@silentsiren/backend
 - ✅ Geolocation-based features
 
 ### Frontend (Next.js/React)
+
 - ✅ User interface
 - ✅ Push notification setup
 - ✅ Emergency triggering
@@ -297,12 +324,14 @@ npm run build --workspace=@silentsiren/backend
 - ✅ Service worker for background notifications
 
 ### Database (Neon PostgreSQL)
+
 - ✅ 8 tables with relationships
 - ✅ Indexes for performance
 - ✅ Triggers for auto-updates
 - ✅ Full CRUD operations
 
 ### Notifications (Firebase FCM)
+
 - ✅ Emergency alerts
 - ✅ Community validation requests
 - ✅ Multi-device support

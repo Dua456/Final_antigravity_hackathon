@@ -25,10 +25,12 @@ const sendEmergencyAlertSchema = z.object({
   transcript: z.string(),
   reasoning: z.string(),
   confidence: z.number().min(0).max(1),
-  location: z.object({
-    latitude: z.number(),
-    longitude: z.number(),
-  }).optional(),
+  location: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   audioUrl: z.string().url().optional(),
 });
 
@@ -201,7 +203,7 @@ router.post('/emergency-alert', authenticate, async (req: AuthRequest, res: Resp
       alertData.threatLevel
     );
 
-    const whatsappContacts = contactsData.whatsapp.map(c => ({
+    const whatsappContacts = contactsData.whatsapp.map((c) => ({
       phoneNumber: c.phone_number,
       name: c.name,
     }));
@@ -216,7 +218,17 @@ router.post('/emergency-alert', authenticate, async (req: AuthRequest, res: Resp
       });
     }
 
-    const result = await whatsAppService.sendEmergencyAlert(whatsappContacts, alertData);
+    const result = await whatsAppService.sendEmergencyAlert(
+      whatsappContacts,
+      alertData as {
+        threatLevel: string;
+        transcript: string;
+        reasoning: string;
+        confidence: number;
+        location?: { latitude: number; longitude: number };
+        audioUrl?: string;
+      }
+    );
 
     // Log to audit
     await auditService.log({
@@ -276,7 +288,10 @@ router.post('/contact-form', async (req, res: Response) => {
 
     const { recipientNumber, ...formData } = validation.data;
 
-    const result = await whatsAppService.sendContactFormMessage(recipientNumber, formData);
+    const result = await whatsAppService.sendContactFormMessage(
+      recipientNumber,
+      formData as { name: string; email: string; message: string; phone?: string }
+    );
 
     if (!result.success) {
       return res.status(500).json({

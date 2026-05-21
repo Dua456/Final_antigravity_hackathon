@@ -1,6 +1,7 @@
 # ✅ YOUR SETUP IS READY - Start Backend Now
 
 ## Good News:
+
 ✅ **Port 3001 is free**
 ✅ **Neon database is configured** (DATABASE_URL is set)
 ✅ **firebase-admin installed**
@@ -66,6 +67,7 @@ curl -X POST http://localhost:3001/api/auth/register ^
 Since you have **Neon database configured**, you get:
 
 ✅ **Full database functionality**
+
 - User registration/login
 - Emergency event storage
 - Emergency history
@@ -73,6 +75,7 @@ Since you have **Neon database configured**, you get:
 - All CRUD operations
 
 ✅ **Working features:**
+
 - User authentication (JWT)
 - Emergency events
 - Database persistence
@@ -81,6 +84,7 @@ Since you have **Neon database configured**, you get:
 - Security middleware
 
 🔔 **Optional (setup later):**
+
 - Push notifications (requires Firebase setup)
 - SMS alerts (requires Twilio setup)
 
@@ -102,17 +106,21 @@ Since you have **Neon database configured**, you get:
 ## 🚨 If You See Errors:
 
 ### "Database connection failed"
+
 Your Neon database might need the schema:
+
 ```bash
 # Run this to create tables
 psql "postgresql://neondb_owner:npg_bdflQ1gx7qYz@ep-dry-smoke-aqh2syx4-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require" -f apps/backend/src/db/schema.sql
 ```
 
 ### "Redis connection failed"
+
 **This is OK!** Backend will continue with a warning.
 Redis is optional for development.
 
 ### "Cannot find module"
+
 ```powershell
 npm install
 npm run dev
@@ -125,14 +133,17 @@ npm run dev
 ### Option 1: Test with curl (commands above)
 
 ### Option 2: Start Frontend
+
 ```powershell
 # In a NEW terminal
 cd C:\Users\FC\Documents\hackathon-main\apps\frontend
 npm run dev
 ```
+
 Then open: http://localhost:3000
 
 ### Option 3: Setup Firebase (optional)
+
 Follow: `FCM_QUICK_REFERENCE.md` for push notifications
 
 ---
@@ -140,6 +151,7 @@ Follow: `FCM_QUICK_REFERENCE.md` for push notifications
 ## 💡 Quick Reference:
 
 **Start backend:**
+
 ```powershell
 cd apps/backend
 npm run dev

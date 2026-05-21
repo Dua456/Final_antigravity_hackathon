@@ -44,7 +44,10 @@ class Server {
         await initializeDatabase();
         logger.info('Database schema verified');
       } catch (schemaError) {
-        logger.warn('Database schema initialization failed - tables may already exist or need manual setup', { error: schemaError });
+        logger.warn(
+          'Database schema initialization failed - tables may already exist or need manual setup',
+          { error: schemaError }
+        );
         logger.info('Server will continue - database connection is working');
       }
     } catch (error) {
@@ -64,6 +67,7 @@ class Server {
   }
 
   private initializeMiddleware(): void {
+    this.app.set('trust proxy', 1);
     this.app.use(helmet());
     this.app.use(
       cors({
@@ -79,12 +83,26 @@ class Server {
     this.app.use(rateLimiter);
 
     // Antigravity trace middleware
-    const { traceMiddleware, emergencyTraceMiddleware, traceErrorMiddleware } = require('./middleware/traceMiddleware');
+    const {
+      traceMiddleware,
+      emergencyTraceMiddleware,
+      traceErrorMiddleware,
+    } = require('./middleware/traceMiddleware');
     this.app.use(traceMiddleware);
     this.app.use(emergencyTraceMiddleware);
   }
 
   private initializeRoutes(): void {
+    this.app.get('/', (_req: Request, res: Response) => {
+      res.json({
+        name: 'SilentSiren API',
+        version: '1.0.0',
+        status: 'running',
+        health: '/health',
+        api: '/api',
+      });
+    });
+
     this.app.get('/health', (_req: Request, res: Response) => {
       res.json({
         status: 'healthy',

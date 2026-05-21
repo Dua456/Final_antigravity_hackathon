@@ -1,11 +1,14 @@
 # ✅ FIXED - Backend Will Start Now
 
 ## What Was Wrong:
+
 The backend was trying to initialize the database schema automatically, but it was failing because:
+
 - Tables might already exist in your Neon database
 - Or the schema.sql file couldn't be read properly
 
 ## What I Fixed:
+
 ✅ Made schema initialization **non-blocking**
 ✅ Backend will now start even if schema fails
 ✅ Database connection still works

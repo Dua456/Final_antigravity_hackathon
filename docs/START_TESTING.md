@@ -3,12 +3,14 @@
 ## Start Servers (2 terminals needed)
 
 **Terminal 1 - Backend:**
+
 ```bash
 cd apps/backend
 npm run dev
 ```
 
 **Terminal 2 - Frontend:**
+
 ```bash
 npm run dev:frontend
 ```
@@ -31,6 +33,7 @@ npm run dev:frontend
    - ✅ GPS location included
 
 ## Console Should Show:
+
 ```
 🎤 Wake phrase detected!
 🔍 Starting AI analysis
