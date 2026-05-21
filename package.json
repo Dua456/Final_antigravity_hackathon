@@ -5,7 +5,6 @@
   "description": "SilentSiren AI - Emergency Response Platform with Multimodal AI",
   "workspaces": [
     "apps/*",
-    "packages/*",
     "apps/backend/packages/*"
   ],
   "scripts": {
